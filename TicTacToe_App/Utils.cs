@@ -7,4 +7,12 @@ namespace TicTacToe_App
         O,
         Empty
     }
+
+    public enum GameResults
+    {
+        XWin,
+        OWin,
+        Draw,
+        Continue
+    }
 }

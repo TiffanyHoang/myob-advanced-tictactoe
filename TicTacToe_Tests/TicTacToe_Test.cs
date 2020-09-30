@@ -33,14 +33,6 @@ namespace TicTacToe_Tests
         {
             return _value.Dequeue();
         }
-
-        public string JoinAllText(string delimiter = "")
-        {
-            var allTexts = _value.ToArray();
-            _value.Clear();
-
-            return string.Join(delimiter, allTexts);
-        }
     }
 
     public class TicTacToe_Test
@@ -53,28 +45,13 @@ namespace TicTacToe_Tests
             var board = new Board();
             var newGame = new TicTacToe(board, testWrite.Write, testRead.Read);
 
+            testRead.SetToBeRead("q");
             newGame.RunGame();
 
-            Assert.Equal("...\n...\n...\n", testWrite.JoinAllText());
+            Assert.Equal("Welcome to Tic Tac Toe!\nHere's the current board:\n", testWrite.GetText());
+
+            Assert.Equal("...\n...\n...\n", testWrite.GetText());
 
         }
-
-        //[Theory]
-        //[InlineData("1,1")]
-        //public void RunGame_WhenPlayerProvideCoord_CheckIfValidCoord(string input)
-        //{
-        //    var testWrite = new TestWrite();
-        //    var testRead = new TestRead();
-        //    var board = new Board();
-        //    var newGame = new TicTacToe(board, testWrite.Write, testRead.Read);
-
-        //    testRead.SetToBeRead(input);
-        //    newGame.RunGame();
-        //    var coord = testRead.Read();
-
-        //    var actual = newGame.CheckForValidCoord(coord);
-        //    Assert.True(actual);
-
-        //}
     }
 }

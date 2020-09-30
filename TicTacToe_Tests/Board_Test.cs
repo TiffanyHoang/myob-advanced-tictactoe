@@ -7,7 +7,7 @@ namespace TicTacToe_Tests
     public class Board_Test
     {
         [Fact]
-        public void WhenCreateABoard_ReturnA9EmptyCells()
+        public void WhenCreateABoard_ReturnA9EmptyCoords()
         {
             var board = new Board();
 
@@ -29,6 +29,15 @@ namespace TicTacToe_Tests
             int actualCells = cellCount;
 
             Assert.Equal(expectedCells, actualCells);
+        }
+
+        [Fact]
+        public void PrintBoard_WhenCreateABoard_ReturnEmptyBoard()
+        {
+            var board = new Board();
+            var actual = board.PrintBoard();
+
+            Assert.Equal("...\n...\n...\n", actual);
         }
     }
 }

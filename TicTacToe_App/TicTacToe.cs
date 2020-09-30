@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+
 
 namespace TicTacToe_App
 {
@@ -17,57 +17,46 @@ namespace TicTacToe_App
         }
 
         public void RunGame()
-        {
+        {   
+            var playerX = TokenType.X;
+            var playerO = TokenType.O;
+
+            var currentPlayer = playerX;
 
             _write("Welcome to Tic Tac Toe!\nHere's the current board:\n");
 
-            PrintBoard();
+            _write(_board.PrintBoard());
 
-            var player1 = "X";
-            var player2 = "O";
-            var currentPlayer = player1;
-
-            _write($"{currentPlayer} enter a coord x,y to place your X or enter 'q' to give up:");
+            PrintInstruction(currentPlayer);
 
             var playerInput = _read();
 
-        }
-
-        private void PrintBoard()
-        {
-            var grid = _board.Grid;
-           
-            foreach (var row in grid)
+            if (playerInput == "q")
             {
-                foreach (var cell in row)
+                return;
+            }
+            else
+            {
+                var isValidCoord = Rules.CheckForValidCoord(_board, playerInput);
+
+                if (isValidCoord == true)
                 {
-                    _write(".");
+                    _board.UpdateBoard(_board, currentPlayer, playerInput);
+                    _write(_board.PrintBoard());
+                    var gameResult = GameResult.CheckWinner(_board);
+                    
+                } else
+                {
+                    _write("Opps, it's not a valid coord! Try again... \n");
+                    PrintInstruction(currentPlayer);
+
                 }
-                _write("\n");
             }
         }
 
-        public bool CheckForValidCoord(string input)
+        private void PrintInstruction(TokenType player)
         {
-            var coordArray = input.Split(",").Select(int.Parse).ToArray();
-            var x = coordArray[0] - 1;
-            var y = coordArray[1] - 1;
-            var boardWidth = _board.Grid.Length;
-            var boardHeight = _board.Grid[0].Length;
-
-            var not2IntegerNumbersSeparatedByComma = coordArray.Length != 2 || double.IsNaN(x) || double.IsNaN(y);
-            var coordIsNegativeNumber = x < 0 || y < 0;
-            var coordIsOutsideOfBoard = x >= boardWidth || y>= boardHeight;
-            var occupiedCell = _board.Grid[x][y] != TokenType.Empty;
-
-            if (not2IntegerNumbersSeparatedByComma || coordIsNegativeNumber || coordIsOutsideOfBoard || occupiedCell)
-            {
-                return false;
-            }
-
-            return true;
+            _write($"Player {player} enter a coord x,y to place your X or enter 'q' to give up:");
         }
-
-
     }
 }
