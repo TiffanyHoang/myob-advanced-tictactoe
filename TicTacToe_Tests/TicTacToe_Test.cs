@@ -33,6 +33,11 @@ namespace TicTacToe_Tests
         {
             return _value.Dequeue();
         }
+
+        public bool HasText(string text)
+        {
+            return _value.Contains(text);
+        }
     }
 
     public class TicTacToe_Test
@@ -52,6 +57,90 @@ namespace TicTacToe_Tests
 
             Assert.Equal("...\n...\n...\n", testWrite.GetText());
 
+        }
+
+        [Fact]
+        public void PlayerPressq_ReturnIndicator()
+        {
+            var testWrite = new TestWrite();
+            var testRead = new TestRead();
+            var board = new Board();
+            var newGame = new TicTacToe(board, testWrite.Write, testRead.Read);
+
+            testRead.SetToBeRead("q");
+
+            Assert.Equal(GameStatus.PlayerQuit, newGame.RunGame());
+        }
+
+        [Fact]
+        public void PlayerXWin_ReturnXWinStatus()
+        {
+            var testWrite = new TestWrite();
+            var testRead = new TestRead();
+            var board = new Board();
+            var newGame = new TicTacToe(board, testWrite.Write, testRead.Read);
+
+            testRead.SetToBeRead("1,1");
+            testRead.SetToBeRead("1,2");
+            testRead.SetToBeRead("2,1");
+            testRead.SetToBeRead("1,3");
+            testRead.SetToBeRead("3,1");
+
+            Assert.Equal(GameStatus.XWin, newGame.RunGame());
+        }
+
+        [Fact]
+        public void PlayerOWin_ReturnOWinStatus()
+        {
+            var testWrite = new TestWrite();
+            var testRead = new TestRead();
+            var board = new Board();
+            var newGame = new TicTacToe(board, testWrite.Write, testRead.Read);
+
+            testRead.SetToBeRead("1,1");
+            testRead.SetToBeRead("1,2");
+            testRead.SetToBeRead("2,1");
+            testRead.SetToBeRead("2,2");
+            testRead.SetToBeRead("3,3");
+            testRead.SetToBeRead("3,2");
+
+            Assert.Equal(GameStatus.OWin, newGame.RunGame());
+        }
+
+        [Fact]
+        public void PlayerEnterInvalidCoord_ReturnErrorMessage()
+        {
+            var testWrite = new TestWrite();
+            var testRead = new TestRead();
+            var board = new Board();
+            var newGame = new TicTacToe(board, testWrite.Write, testRead.Read);
+
+            testRead.SetToBeRead("-1,1");
+            testRead.SetToBeRead("q");
+
+            newGame.RunGame();
+            Assert.True(testWrite.HasText("Opps, it's not a valid coord! Try again... \n"));
+        }
+
+        [Fact]
+        public void GivenTheFullBoard_ReturnDraw()
+        {
+            var testWrite = new TestWrite();
+            var testRead = new TestRead();
+            var board = new Board();
+            var newGame = new TicTacToe(board, testWrite.Write, testRead.Read);
+
+            testRead.SetToBeRead("1,1");
+            testRead.SetToBeRead("1,2");
+            testRead.SetToBeRead("2,1");
+            testRead.SetToBeRead("2,2");
+            testRead.SetToBeRead("3,3");
+            testRead.SetToBeRead("3,1");
+            testRead.SetToBeRead("3,2");
+            testRead.SetToBeRead("2,3");
+            testRead.SetToBeRead("1,3");
+
+            Assert.Equal(GameStatus.Draw, newGame.RunGame());
         }
     }
 }

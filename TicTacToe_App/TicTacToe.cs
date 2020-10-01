@@ -16,47 +16,86 @@ namespace TicTacToe_App
             _read = read;
         }
 
-        public void RunGame()
-        {   
-            var playerX = TokenType.X;
-            var playerO = TokenType.O;
+        public GameStatus RunGame()
+        {
+            var isXTurn = false;
 
-            var currentPlayer = playerX;
+            var currentPlayer = isXTurn ? TokenType.X : TokenType.O;
 
             _write("Welcome to Tic Tac Toe!\nHere's the current board:\n");
 
             _write(_board.PrintBoard());
 
-            PrintInstruction(currentPlayer);
+            var gameResult = GameResult.CheckWinner(_board);
 
-            var playerInput = _read();
+            while (true)
+            {
+                isXTurn = !isXTurn;
 
-            if (playerInput == "q")
-            {
-                return;
-            }
-            else
-            {
+                currentPlayer = isXTurn ? TokenType.X : TokenType.O;
+
+                PrintInstruction(currentPlayer);
+
+                var playerInput = _read();
+
                 var isValidCoord = Rules.CheckForValidCoord(_board, playerInput);
 
-                if (isValidCoord == true)
+                if (playerInput == "q")
                 {
-                    _board.UpdateBoard(_board, currentPlayer, playerInput);
-                    _write(_board.PrintBoard());
-                    var gameResult = GameResult.CheckWinner(_board);
-                    
-                } else
+                    return GameStatus.PlayerQuit;
+                }
+
+
+                while (!isValidCoord)
                 {
                     _write("Opps, it's not a valid coord! Try again... \n");
+
                     PrintInstruction(currentPlayer);
+                    playerInput = _read();
+
+                    isValidCoord = Rules.CheckForValidCoord(_board, playerInput);
+
+                    if (playerInput == "q")
+                    {
+                        return GameStatus.PlayerQuit;
+                    }
+                }
+
+                currentPlayer = isXTurn ? TokenType.X : TokenType.O;
+                _board.UpdateBoard(_board, currentPlayer, playerInput);
+
+                gameResult = GameResult.CheckWinner(_board);
+                _write(_board.PrintBoard());
+
+
+                if (gameResult == GameStatus.XWin)
+                {
+                    _write("Player X win");
+                    return GameStatus.XWin;
 
                 }
+
+                else if ( gameResult == GameStatus.OWin)
+                {
+                    _write("Player O win");
+                    return GameStatus.OWin;
+
+                }
+
+                else if (gameResult == GameStatus.Draw)
+                {
+                    _write("Draw");
+                    return GameStatus.Draw;
+                }
             }
+
         }
 
         private void PrintInstruction(TokenType player)
         {
-            _write($"Player {player} enter a coord x,y to place your X or enter 'q' to give up:");
+            _write($"Player {player} enter a coord x,y to place your {player} or enter 'q' to give up:");
         }
+
+        
     }
 }

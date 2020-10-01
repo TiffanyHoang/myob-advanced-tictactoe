@@ -16,7 +16,7 @@ namespace TicTacToe_Tests
             board.UpdateBoard(board, TokenType.X, "1,3");
 
             var actual = GameResult.CheckWinner(board);
-            var expected = GameResults.XWin;
+            var expected = GameStatus.XWin;
             Assert.Equal(expected, actual);
         }
 
@@ -30,7 +30,7 @@ namespace TicTacToe_Tests
             board.UpdateBoard(board, TokenType.X, "3,1");
 
             var actual = GameResult.CheckWinner(board);
-            var expected = GameResults.XWin;
+            var expected = GameStatus.XWin;
             Assert.Equal(expected, actual);
         }
 
@@ -44,7 +44,7 @@ namespace TicTacToe_Tests
             board.UpdateBoard(board, TokenType.X, "3,3");
 
             var actual = GameResult.CheckWinner(board);
-            var expected = GameResults.XWin;
+            var expected = GameStatus.XWin;
             Assert.Equal(expected, actual);
         }
 
@@ -58,7 +58,7 @@ namespace TicTacToe_Tests
             board.UpdateBoard(board, TokenType.X, "3,1");
 
             var actual = GameResult.CheckWinner(board);
-            var expected = GameResults.XWin;
+            var expected = GameStatus.XWin;
             Assert.Equal(expected, actual);
         }
 
@@ -72,7 +72,7 @@ namespace TicTacToe_Tests
             board.UpdateBoard(board, TokenType.O, "1,3");
 
             var actual = GameResult.CheckWinner(board);
-            var expected = GameResults.OWin;
+            var expected = GameStatus.OWin;
             Assert.Equal(expected, actual);
         }
 
@@ -86,7 +86,7 @@ namespace TicTacToe_Tests
             board.UpdateBoard(board, TokenType.O, "3,1");
 
             var actual = GameResult.CheckWinner(board);
-            var expected = GameResults.OWin;
+            var expected = GameStatus.OWin;
             Assert.Equal(expected, actual);
         }
 
@@ -100,7 +100,7 @@ namespace TicTacToe_Tests
             board.UpdateBoard(board, TokenType.O, "3,3");
 
             var actual = GameResult.CheckWinner(board);
-            var expected = GameResults.OWin;
+            var expected = GameStatus.OWin;
             Assert.Equal(expected, actual);
         }
 
@@ -114,7 +114,7 @@ namespace TicTacToe_Tests
             board.UpdateBoard(board, TokenType.O, "3,1");
 
             var actual = GameResult.CheckWinner(board);
-            var expected = GameResults.OWin;
+            var expected = GameStatus.OWin;
             Assert.Equal(expected, actual);
         }
 
@@ -134,7 +134,7 @@ namespace TicTacToe_Tests
             board.UpdateBoard(board, TokenType.X, "3,3");
 
             var actual = GameResult.CheckWinner(board);
-            var expected = GameResults.Draw;
+            var expected = GameStatus.Draw;
             Assert.Equal(expected, actual);
         }
 
@@ -153,7 +153,7 @@ namespace TicTacToe_Tests
             board.UpdateBoard(board, TokenType.X, "3,1");
 
             var actual = GameResult.CheckWinner(board);
-            var expected = GameResults.Continue;
+            var expected = GameStatus.Continue;
             Assert.Equal(expected, actual);
         }
     }

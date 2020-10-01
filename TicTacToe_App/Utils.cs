@@ -8,11 +8,12 @@ namespace TicTacToe_App
         Empty
     }
 
-    public enum GameResults
+    public enum GameStatus
     {
         XWin,
         OWin,
         Draw,
-        Continue
+        Continue,
+        PlayerQuit
     }
 }

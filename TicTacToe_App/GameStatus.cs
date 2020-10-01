@@ -5,7 +5,7 @@ namespace TicTacToe_App
 {
     public class GameResult
     {
-        public static GameResults CheckWinner(Board board)
+        public static GameStatus CheckWinner(Board board)
         {
             var winningCombinations = new TokenType[][] {
                 new TokenType[] {board.Grid[0][0], board.Grid[0][1] , board.Grid[0][2] },
@@ -27,12 +27,12 @@ namespace TicTacToe_App
 
             if (isXWin)
             {
-                return GameResults.XWin;
+                return GameStatus.XWin;
             }
 
             if (isOWin)
             {
-                return GameResults.OWin;
+                return GameStatus.OWin;
             }
 
             var emptyCells = 0; 
@@ -49,10 +49,10 @@ namespace TicTacToe_App
 
             if (emptyCells == 9)
             {
-                return GameResults.Draw;
+                return GameStatus.Draw;
             }
 
-            return GameResults.Continue;
+            return GameStatus.Continue;
         }
     }
 }
