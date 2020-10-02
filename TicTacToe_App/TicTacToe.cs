@@ -63,38 +63,33 @@ namespace TicTacToe_App
                     checkCoord = Rules.CheckForValidCoord(_board, playerInput);
                 }
 
-                currentPlayer = isXTurn ? TokenType.X : TokenType.O;
 
                 _board.UpdateBoard(_board, currentPlayer, playerInput);
 
+                PrintUpdateBoard();
+
                 var gameResult = GameResult.CheckWinner(_board);
-
-                _write("Move accepted, here's the current board: \n");
-
-                _write(_board.PrintBoard());
-
-                isXTurn = !isXTurn;
-
 
                 if (gameResult == GameStatus.XWin)
                 {
                     _write("Player X win!");
                     return GameStatus.XWin;
-
                 }
 
-                else if ( gameResult == GameStatus.OWin)
+                if (gameResult == GameStatus.OWin)
                 {
                     _write("Player O win!");
                     return GameStatus.OWin;
-
                 }
 
-                else if (gameResult == GameStatus.Draw)
+                if (gameResult == GameStatus.Draw)
                 {
                     _write("Draw!");
                     return GameStatus.Draw;
                 }
+
+                isXTurn = !isXTurn;
+
             }
 
         }
@@ -109,5 +104,13 @@ namespace TicTacToe_App
             PrintInstruction(currentPlayer);
             return _read();
         }
+
+        private void PrintUpdateBoard()
+        {
+            _write("Move accepted, here's the current board: \n");
+            _write(_board.PrintBoard());
+        }
+
+        
     }
 }
