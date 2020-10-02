@@ -5,7 +5,7 @@ namespace TicTacToe_App
 {
     public class Rules
     {
-        public static bool CheckForValidCoord(Board board, string input)
+        public static ValidationMessage CheckForValidCoord(Board board, string input)
         {
 
             try
@@ -15,7 +15,7 @@ namespace TicTacToe_App
 
                 if (not2IntegerNumbersSeparatedByComma)
                 {
-                    return false;
+                    return ValidationMessage.InvalidCoord;
                 }
 
                 var x = coordArray[0] - 1;
@@ -28,21 +28,21 @@ namespace TicTacToe_App
 
                 if (coordIsNegativeNumber || coordIsOutsideOfBoard)
                 {
-                    return false;
+                    return ValidationMessage.InvalidCoord;
                 }
 
                 var occupiedCoord = board.Grid[x][y] != TokenType.Empty;
 
                 if (occupiedCoord)
                 {
-                    return false;
+                    return ValidationMessage.OccupiedCell;
                 }
 
-                return true;
+                return ValidationMessage.ValidCoord;
             }
             catch
             {
-                return false;
+                return ValidationMessage.InvalidCoord;
             }
         }
     }

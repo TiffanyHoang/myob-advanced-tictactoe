@@ -16,13 +16,15 @@ namespace TicTacToe_Tests
         [InlineData("3,1")]
         [InlineData("3,2")]
         [InlineData("3,3")]
-        public void GivenAValidCoord_ReturnTrue(string input)
+        public void GivenAValidCoord_ReturnValidCoordMessage(string input)
         {
             var board = new Board();
             var inputCoord = input;
 
+            var expected = ValidationMessage.ValidCoord;
             var actual = Rules.CheckForValidCoord(board, inputCoord);
-            Assert.True(actual);
+
+            Assert.Equal(expected,actual);
         }
 
         [Theory]
@@ -33,28 +35,28 @@ namespace TicTacToe_Tests
         [InlineData("1,-1")]
         [InlineData("4,1")]
         [InlineData("1,4")]
-        public void GivenAInvalidCoord_ReturnFalse(string input)
+        public void GivenAInvalidCoord_ReturnInvalidCoordMessage(string input)
         {
             var board = new Board();
-
             var inputCoord = input;
 
+            var expected = ValidationMessage.InvalidCoord;
             var actual = Rules.CheckForValidCoord(board, inputCoord);
-            Assert.False(actual);
+
+            Assert.Equal(expected, actual);
         }
 
         [Theory]
         [InlineData("1,1")]
-        public void GivenAOccupiedCoord_ReturnFalse(string input)
+        public void GivenAOccupiedCoord_ReturnOccupiedCellMessage(string input)
         {
             var board = new Board();
+            board.UpdateBoard(board, TokenType.X, input);
 
-            var inputCoord = input;
+            var expected = ValidationMessage.OccupiedCell;
+            var actual = Rules.CheckForValidCoord(board, input);
 
-            board.UpdateBoard(board, TokenType.X, "1,1");
-
-            var actual = Rules.CheckForValidCoord(board, inputCoord);
-            Assert.False(actual);
+            Assert.Equal(expected, actual);
         }
     }
 }

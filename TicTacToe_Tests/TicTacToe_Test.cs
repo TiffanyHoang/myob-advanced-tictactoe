@@ -7,36 +7,34 @@ namespace TicTacToe_Tests
 {
     public class TestRead
     {
-        private Queue<string> _value = new Queue<string>();
+        private readonly Queue<string> _value = new Queue<string>();
 
-        public void SetToBeRead(string value)
-        {
-            _value.Enqueue(value);
-        }
+        public void SetToBeRead(string value) => _value.Enqueue(value);
 
-        public string Read()
-        {
-            return _value.Dequeue();
-        }
+        public string Read() => _value.Dequeue();
+        
     }
 
     public class TestWrite
     {
-        private Queue<string> _value = new Queue<string>();
+        private readonly Queue<string> _value = new Queue<string>();
 
-        public void Write(string text)
-        {
-            _value.Enqueue(text);
-        }
+        public void Write(string text) => _value.Enqueue(text);
 
-        public string GetText()
-        {
-            return _value.Dequeue();
-        }
+        public string GetText() => _value.Dequeue();
 
         public bool HasText(string text)
         {
-            return _value.Contains(text);
+            var hasText = 0;
+            foreach (var value in _value)
+            {
+                if (value.Contains(text))
+                {
+                    hasText += 1; 
+                }
+            }
+
+            return hasText != 0;
         }
     }
 
@@ -60,7 +58,7 @@ namespace TicTacToe_Tests
         }
 
         [Fact]
-        public void PlayerPressq_ReturnIndicator()
+        public void PlayerPressq_ReturnPlayerQuitStatus()
         {
             var testWrite = new TestWrite();
             var testRead = new TestRead();
@@ -108,7 +106,7 @@ namespace TicTacToe_Tests
         }
 
         [Fact]
-        public void PlayerEnterInvalidCoord_ReturnErrorMessage()
+        public void PlayerEnterInvalidCoord_ReturnNotValidCoordMessage()
         {
             var testWrite = new TestWrite();
             var testRead = new TestRead();
@@ -119,7 +117,23 @@ namespace TicTacToe_Tests
             testRead.SetToBeRead("q");
 
             newGame.RunGame();
-            Assert.True(testWrite.HasText("Opps, it's not a valid coord! Try again... \n"));
+            Assert.True(testWrite.HasText("not a valid coord!"));
+        }
+
+        [Fact]
+        public void PlayerEnterOccupiedCellCoord_ReturnOccupiedCellMessage()
+        {
+            var testWrite = new TestWrite();
+            var testRead = new TestRead();
+            var board = new Board();
+            var newGame = new TicTacToe(board, testWrite.Write, testRead.Read);
+
+            testRead.SetToBeRead("1,1");
+            testRead.SetToBeRead("1,1");
+            testRead.SetToBeRead("q");
+
+            newGame.RunGame();
+            Assert.True(testWrite.HasText("a piece is already at this place"));
         }
 
         [Fact]

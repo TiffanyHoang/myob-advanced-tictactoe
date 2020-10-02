@@ -8,6 +8,13 @@ namespace TicTacToe_App
         Empty
     }
 
+    public enum ValidationMessage
+    {
+        ValidCoord,
+        InvalidCoord,
+        OccupiedCell
+    }
+
     public enum GameStatus
     {
         XWin,
