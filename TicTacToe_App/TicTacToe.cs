@@ -29,19 +29,19 @@ namespace TicTacToe_App
             while (true)
             {
                 currentPlayer = isXTurn ? TokenType.X : TokenType.O;
+                var playerInput = "";
+                while (true)
+                { 
+                    playerInput = RequestInput(currentPlayer);
 
-                var playerInput = RequestInput(currentPlayer);
+                    if (playerInput == "q")
+                    {
+                        _write($"{currentPlayer} quit!");
+                        return GameStatus.PlayerQuit;
+                    }
+                    
+                    var checkCoord = Rules.CheckForValidCoord(_board, playerInput);
 
-                if (playerInput == "q")
-                {
-                    _write($"{currentPlayer} quit!");
-                    return GameStatus.PlayerQuit;
-                }
-
-                var checkCoord = Rules.CheckForValidCoord(_board, playerInput);
-
-                while (checkCoord == ValidationMessage.InvalidCoord || checkCoord == ValidationMessage.OccupiedCell)
-                {
                     if (checkCoord == ValidationMessage.InvalidCoord)
                     {
                         _write("Oh no, it's not a valid coord! Try again... \n");
@@ -51,18 +51,13 @@ namespace TicTacToe_App
                         _write("Oh no, a piece is already at this place! Try again... \n");
                     }
 
-
-                    playerInput = RequestInput(currentPlayer);
-
-                    if (playerInput == "q")
-                    {
-                        _write($"{currentPlayer} quit!");
-                        return GameStatus.PlayerQuit;
-                    }
-
                     checkCoord = Rules.CheckForValidCoord(_board, playerInput);
+                    
+                    if (checkCoord == ValidationMessage.ValidCoord)
+                    {
+                        break;
+                    }
                 }
-
 
                 _board.UpdateBoard(_board, currentPlayer, playerInput);
 
@@ -111,6 +106,5 @@ namespace TicTacToe_App
             _write(_board.PrintBoard());
         }
 
-        
     }
 }
