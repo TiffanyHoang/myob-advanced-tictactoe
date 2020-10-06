@@ -100,9 +100,7 @@ namespace TicTacToe_App
                 else if (checkCoord == ValidationMessage.OccupiedCell)
                 {
                     _write("Oh no, a piece is already at this place! Try again... \n");
-                }
-
-                if (checkCoord == ValidationMessage.ValidCoord)
+                } else 
                 {
                     break;
                 }

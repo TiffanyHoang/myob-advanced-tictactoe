@@ -62,7 +62,6 @@ namespace TicTacToe_App
             {
                 return ValidationInput.Invalid;
             }
-           
         }
     }
 }

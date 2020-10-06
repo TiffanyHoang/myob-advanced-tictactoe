@@ -8,13 +8,18 @@ namespace TicTacToe_Tests
     public class Program_Test
     {
          [Fact]
-        public void GivenBoardSizeInput_ReturnABoardMatchWithTheGivenSize()
+        public void GivenBoardSizeOptionInput_ReturnABoardSizeMatchWithTheGivenSizeOption()
         {
             var testRead = new TestRead();
-            var boardSizeOption = Program.RequestBoardSizeOption();
-            var actual = Program.SetBoardSize(boardSizeOption);
+            var testWrite = new TestWrite();
+            testRead.SetToBeRead("0");
+            testRead.SetToBeRead("4");
             testRead.SetToBeRead("2");
 
+
+            var boardSizeOption = Program.RequestBoardSizeOption(testRead.Read,testWrite.Write);
+            var actual = Program.SetBoardSize(boardSizeOption);
+            Assert.True(testWrite.HasText("not a valid option"));
             Assert.Equal(4, actual);
         }
 

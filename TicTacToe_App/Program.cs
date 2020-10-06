@@ -6,7 +6,7 @@ namespace TicTacToe_App
     {
         static void Main(string[] args)
         {
-            var boardSizeOption = RequestBoardSizeOption();
+            var boardSizeOption = RequestBoardSizeOption(Console.ReadLine, Console.WriteLine);
             var boardSize = SetBoardSize(boardSizeOption);
             var board = new Board(boardSize);
 
@@ -14,21 +14,23 @@ namespace TicTacToe_App
             newGame.RunGame();
         }
 
-        public static int RequestBoardSizeOption()
+        public static int RequestBoardSizeOption(Func<string> read, Action<string> write)
         {
             var boardSizeInput = "";
             while (true)
             {
-                Console.WriteLine("Please choose the board size with the option below: \n"
+                write("Please choose the board size with the option below: \n"
                 +   "1 for 3x3 board \n"
                 +   "2 for 4x4 board \n"
                 +   "3 for 5x5 board");
             
-                boardSizeInput = Console.ReadLine();
+                boardSizeInput = read();
 
                 var validationInput = Rules.CheckForValidBoardSizeOption(boardSizeInput);
-
-                if (validationInput == ValidationInput.Valid)
+                if (validationInput == ValidationInput.Invalid)
+                {
+                    write("Sorry, it's not a valid option.");
+                } else
                 {
                     break;
                 }
