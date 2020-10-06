@@ -6,16 +6,17 @@ namespace TicTacToe_Tests
 {
     public class Board_Test
     {
-        [Fact]
-        public void WhenCreateABoard_ReturnA9EmptyCoords()
+        [Theory]
+        [InlineData(3, 3*3)]
+        [InlineData(4, 4*4)]
+        [InlineData(5, 5*5)]
+        public void WhenCreateABoard_ReturnAEmptyCoords(int boardSize, int totalCells)
         {
-            var board = new Board();
-
-            var grid = board.Grid;
+            var board = new Board(boardSize);
 
             var cellCount = 0;
 
-            foreach (var row in grid)
+            foreach (var row in board.Grid)
             {
                 foreach (var cell in row)
                 {
@@ -24,7 +25,7 @@ namespace TicTacToe_Tests
                 }
             }
 
-            int expectedCells = 9;
+            int expectedCells = totalCells;
 
             int actualCells = cellCount;
 

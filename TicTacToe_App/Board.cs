@@ -7,16 +7,28 @@ namespace TicTacToe_App
     public class Board
     {
         public TokenType[][] Grid{ get; set; }
-
-        public Board()
+        public int BoardSize{ get; set; }
+        public Board(int boardSize = 3)
         {
-            Grid = new TokenType[][] {
-               new TokenType[] { TokenType.Empty, TokenType.Empty, TokenType.Empty },
-               new TokenType[] { TokenType.Empty, TokenType.Empty, TokenType.Empty },
-               new TokenType[] { TokenType.Empty, TokenType.Empty, TokenType.Empty }
-            };
+            BoardSize= boardSize;
+            Grid = CreateGrid(BoardSize);
         }
 
+        public TokenType[][] CreateGrid (int boardSize)
+        {
+            var grid = new TokenType[boardSize][];
+            for (int row = 0; row < boardSize; row++)
+            {
+                var colArray = new TokenType[boardSize];
+                for (int col = 0; col < boardSize ; col++)
+                {
+                    colArray[col] = TokenType.Empty;
+                }
+                grid[row] = colArray;
+            }
+            return grid;
+        }
+        
         public string PrintBoard()
         {
             var boardString = "";

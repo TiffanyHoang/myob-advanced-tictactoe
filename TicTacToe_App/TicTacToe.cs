@@ -19,47 +19,23 @@ namespace TicTacToe_App
         public GameStatus RunGame()
         {
             var isXTurn = true;
-
-            var currentPlayer = isXTurn ? TokenType.X : TokenType.O;
-
+            
             _write("Welcome to Tic Tac Toe!\nHere's the current board:\n");
 
             _write(_board.PrintBoard());
 
             while (true)
             {
-                currentPlayer = isXTurn ? TokenType.X : TokenType.O;
-                var playerInput = "";
-                while (true)
-                { 
-                    playerInput = RequestInput(currentPlayer);
+                var currentPlayer = isXTurn ? TokenType.X : TokenType.O;
+                var validInput = CheckCurrentPlayerInput(currentPlayer);
 
-                    if (playerInput == "q")
-                    {
-                        _write($"{currentPlayer} quit!");
-                        return GameStatus.PlayerQuit;
-                    }
-                    
-                    var checkCoord = Rules.CheckForValidCoord(_board, playerInput);
+                if (validInput == "q")
+                {
+                    _write($"{currentPlayer} quit!");
+                    return GameStatus.PlayerQuit;
+                } 
 
-                    if (checkCoord == ValidationMessage.InvalidCoord)
-                    {
-                        _write("Oh no, it's not a valid coord! Try again... \n");
-                    }
-                    else if (checkCoord == ValidationMessage.OccupiedCell)
-                    {
-                        _write("Oh no, a piece is already at this place! Try again... \n");
-                    }
-
-                    checkCoord = Rules.CheckForValidCoord(_board, playerInput);
-                    
-                    if (checkCoord == ValidationMessage.ValidCoord)
-                    {
-                        break;
-                    }
-                }
-
-                _board.UpdateBoard(_board, currentPlayer, playerInput);
+                _board.UpdateBoard(_board, currentPlayer, validInput);
 
                 PrintUpdateBoard();
 
@@ -84,9 +60,7 @@ namespace TicTacToe_App
                 }
 
                 isXTurn = !isXTurn;
-
             }
-
         }
 
         private void PrintInstruction(TokenType player)
@@ -106,5 +80,35 @@ namespace TicTacToe_App
             _write(_board.PrintBoard());
         }
 
+        private string CheckCurrentPlayerInput (TokenType currentPlayer)
+        {
+            var playerInput = "";
+            while (true)
+            { 
+                playerInput = RequestInput(currentPlayer);
+
+                if (playerInput == "q")
+                {
+                    return playerInput;
+                }
+                
+                var checkCoord = Rules.CheckForValidCoord(_board, playerInput);
+
+                if (checkCoord == ValidationMessage.InvalidCoord)
+                {
+                    _write("Oh no, it's not a valid coord! Try again... \n");
+                }
+                else if (checkCoord == ValidationMessage.OccupiedCell)
+                {
+                    _write("Oh no, a piece is already at this place! Try again... \n");
+                }
+
+                if (checkCoord == ValidationMessage.ValidCoord)
+                {
+                    break;
+                }
+            }
+            return playerInput;
+        }
     }
 }

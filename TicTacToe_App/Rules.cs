@@ -7,7 +7,6 @@ namespace TicTacToe_App
     {
         public static ValidationMessage CheckForValidCoord(Board board, string input)
         {
-
             try
             {
                 var coordArray = input.Split(",").Select(int.Parse).ToArray();
