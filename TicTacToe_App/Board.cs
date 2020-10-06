@@ -10,7 +10,7 @@ namespace TicTacToe_App
         public int BoardSize{ get; set; }
         public Board(int boardSize = 3)
         {
-            BoardSize= boardSize;
+            BoardSize = boardSize;
             Grid = CreateGrid(BoardSize);
         }
 

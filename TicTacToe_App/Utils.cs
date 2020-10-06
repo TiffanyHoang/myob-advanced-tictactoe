@@ -23,4 +23,11 @@ namespace TicTacToe_App
         Continue,
         PlayerQuit
     }
+
+    public enum ValidationInput
+    {
+        Valid,
+        Invalid
+
+    }
 }

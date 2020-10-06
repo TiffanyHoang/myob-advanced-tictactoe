@@ -18,8 +18,7 @@ namespace TicTacToe_App
 
         public GameStatus RunGame()
         {
-            var isXTurn = true;
-            
+            var isXTurn = true;            
             _write("Welcome to Tic Tac Toe!\nHere's the current board:\n");
 
             _write(_board.PrintBoard());

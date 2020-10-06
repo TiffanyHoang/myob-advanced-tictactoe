@@ -58,5 +58,30 @@ namespace TicTacToe_Tests
 
             Assert.Equal(expected, actual);
         }
+
+        [Theory]
+        [InlineData("4")]
+        [InlineData("0")]
+        [InlineData("-1")]   
+        [InlineData("q")]
+        public void GivenAnInvalidaBoardSizeOption_ReturnInvalidBoardSizeOptionMessage(string boardSizeOption)
+        {
+            var expected = ValidationInput.Invalid;
+            var actual = Rules.CheckForValidBoardSizeOption(boardSizeOption);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData("1")]
+        [InlineData("2")]
+        [InlineData("3")]
+        public void GivenAValidaBoardSizeOption_ReturnValidBoardSizeOptionMessage(string boardSizeOption)
+        {
+            var expected = ValidationInput.Valid;
+            var actual = Rules.CheckForValidBoardSizeOption(boardSizeOption);
+
+            Assert.Equal(expected, actual);
+        }
     }
 }
