@@ -10,7 +10,9 @@ namespace TicTacToe_App
             var boardSize = SetBoardSize(boardSizeOption);
             var board = new Board(boardSize);
 
-            RequestNumberOfPlayers(board, Console.WriteLine, Console.ReadLine);
+            var numberOfPlayers = RequestNumberOfPlayers(board, Console.WriteLine, Console.ReadLine);
+
+            // var playerList = PlayersChooseToken(numberOfPlayers, Console.WriteLine, Console.ReadLine);
 
             var newGame = new TicTacToe(board, Console.Write, Console.ReadLine);
             newGame.RunGame();
@@ -62,7 +64,7 @@ namespace TicTacToe_App
             {
                 write("Please enter number of players to play with the rule below: \n"
                 +   "Minimum is 2 players \n"
-                +   "Maxunyn us 4 players \n"
+                +   "Maximum is 4 players \n"
                 +   "With 3x3 board, only 2 players can play");
             
                 numberOfPlayersInput = read();
@@ -79,5 +81,24 @@ namespace TicTacToe_App
             }
             return int.Parse(numberOfPlayersInput);
         }
+    
+        // public static string[] PlayersChooseToken(int numberOfPlayers, Action<string> write, Func<string> read)
+        // {
+        //     string[] playerList = new string[]{};
+        //     for (int i = 0; i < numberOfPlayers; i++)
+        //     {
+        //         write($"Player {i+1} choose a token:");
+        //         var playerTokenInput = read();
+        //         var validationTokenInput = Rules.CheckForValidTokenInput(playerTokenInput);
+        //         if (validationTokenInput == ValidationInput.Invalid || playerTokenInput == playerList[i-1])
+        //         {
+        //             write("Sorry, it's not a valid token.");
+        //         } else
+        //         {
+        //             playerList[i] = playerTokenInput;
+        //         }
+        //     }
+        //     return playerList;
+        // }
     }
 }

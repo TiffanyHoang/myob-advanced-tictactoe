@@ -83,5 +83,15 @@ namespace TicTacToe_App
                 return ValidationInput.Invalid;
             }
         }
+    
+        public static ValidationInput CheckForValidTokenInput(string input)
+        {
+            if (input.Length > 1 || input == ".")
+            {
+                return ValidationInput.Invalid;
+            } else{
+                return ValidationInput.Valid;
+            }
+        }
     }
 }

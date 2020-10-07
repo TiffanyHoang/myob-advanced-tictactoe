@@ -116,5 +116,31 @@ namespace TicTacToe_Tests
 
             Assert.Equal(expected, actual);
         }
+        
+        [Theory]
+        [InlineData("x")]
+        [InlineData("1")]
+        [InlineData("%")]
+        [InlineData("*")]
+        public void GivenValidTokenInput_ReturnValidInput(string tokenInput)
+        {
+            var expected = ValidationInput.Valid;
+            var actual = Rules.CheckForValidTokenInput(tokenInput);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(".")]
+        [InlineData("11")]
+        [InlineData("%%")]
+        [InlineData("*a")]
+        public void GivenInvalidTokenInput_ReturnInvalidInput(string tokenInput)
+        {
+            var expected = ValidationInput.Invalid;
+            var actual = Rules.CheckForValidTokenInput(tokenInput);
+
+            Assert.Equal(expected, actual);
+        }
     }
 }
