@@ -17,7 +17,7 @@ namespace TicTacToe_Tests
             testRead.SetToBeRead("2");
 
 
-            var boardSizeOption = Program.RequestBoardSizeOption(testRead.Read,testWrite.Write);
+            var boardSizeOption = Program.RequestBoardSizeOption(testWrite.Write, testRead.Read);
             var actual = Program.SetBoardSize(boardSizeOption);
             Assert.True(testWrite.HasText("not a valid option"));
             Assert.Equal(4, actual);

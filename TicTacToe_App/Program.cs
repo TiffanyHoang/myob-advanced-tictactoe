@@ -6,15 +6,17 @@ namespace TicTacToe_App
     {
         static void Main(string[] args)
         {
-            var boardSizeOption = RequestBoardSizeOption(Console.ReadLine, Console.WriteLine);
+            var boardSizeOption = RequestBoardSizeOption( Console.WriteLine, Console.ReadLine);
             var boardSize = SetBoardSize(boardSizeOption);
             var board = new Board(boardSize);
+
+            RequestNumberOfPlayers(board, Console.WriteLine, Console.ReadLine);
 
             var newGame = new TicTacToe(board, Console.Write, Console.ReadLine);
             newGame.RunGame();
         }
 
-        public static int RequestBoardSizeOption(Func<string> read, Action<string> write)
+        public static int RequestBoardSizeOption(Action<string> write,Func<string> read)
         {
             var boardSizeInput = "";
             while (true)
@@ -51,6 +53,31 @@ namespace TicTacToe_App
                 boardSize = 5;
             }
             return boardSize;
+        }
+
+        public static int RequestNumberOfPlayers(Board board, Action<string> write,  Func<string> read)
+        {
+            var numberOfPlayersInput = "";
+            while (true)
+            {
+                write("Please enter number of players to play with the rule below: \n"
+                +   "Minimum is 2 players \n"
+                +   "Maxunyn us 4 players \n"
+                +   "With 3x3 board, only 2 players can play");
+            
+                numberOfPlayersInput = read();
+
+                var validationInput = Rules.CheckForValidNumberOfPlayersInput(board, numberOfPlayersInput);
+
+                if (validationInput == ValidationInput.Invalid)
+                {
+                    write("Sorry, it's not a valid number of players.");
+                } else
+                {
+                    break;
+                }
+            }
+            return int.Parse(numberOfPlayersInput);
         }
     }
 }

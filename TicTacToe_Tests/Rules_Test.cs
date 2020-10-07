@@ -83,5 +83,38 @@ namespace TicTacToe_Tests
 
             Assert.Equal(expected, actual);
         }
+
+        [Theory]
+        [InlineData(3, "2")]
+        [InlineData(4, "2")]
+        [InlineData(5, "2")]
+        [InlineData(4, "3")]
+        [InlineData(5, "3")]
+        [InlineData(4, "4")]
+        [InlineData(5, "4")]
+        public void GivenValidNumberOfPlayers_ReturnValidInput(int boardSize, string numberOfPlayersInput)
+        {
+            var board = new Board(boardSize);
+            var expected = ValidationInput.Valid;
+            var actual = Rules.CheckForValidNumberOfPlayersInput(board, numberOfPlayersInput);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(3, "3")]
+        [InlineData(3, "4")]
+        [InlineData(3, "q")]
+        [InlineData(3, "1")]
+        [InlineData(3, "5")]
+        [InlineData(3, "-1")]
+        public void GivenInvalidNumberOfPlayers_ReturnInvalidInput(int boardSize, string numberOfPlayersInput)
+        {
+            var board = new Board(boardSize);
+            var expected = ValidationInput.Invalid;
+            var actual = Rules.CheckForValidNumberOfPlayersInput(board, numberOfPlayersInput);
+
+            Assert.Equal(expected, actual);
+        }
     }
 }
