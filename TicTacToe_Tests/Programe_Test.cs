@@ -12,13 +12,17 @@ namespace TicTacToe_Tests
         {
             var testRead = new TestRead();
             var testWrite = new TestWrite();
-            testRead.SetToBeRead("0");
-            testRead.SetToBeRead("4");
-            testRead.SetToBeRead("2");
+
+            var invalidBoardSizeOptionInput = "0";
+            var validBoardSizeOptionInput = "2";
+
+            testRead.SetToBeRead(invalidBoardSizeOptionInput);
+            testRead.SetToBeRead(validBoardSizeOptionInput);
 
 
             var boardSizeOption = Program.RequestBoardSizeOption(testWrite.Write, testRead.Read);
             var actual = Program.SetBoardSize(boardSizeOption);
+
             Assert.True(testWrite.HasText("not a valid option"));
             Assert.Equal(4, actual);
         }
@@ -28,18 +32,51 @@ namespace TicTacToe_Tests
         {
             var testRead = new TestRead();
             var testWrite = new TestWrite();
-            testRead.SetToBeRead("1");
-            testRead.SetToBeRead("3");
 
-            var boardSizeOption = Program.RequestBoardSizeOption(testWrite.Write, testRead.Read);
-            var boardSize = Program.SetBoardSize(boardSizeOption);
-            var board = new Board(boardSize);
+            var invalidNumberOfPlayersInput = "3";
+            var validNumberOfPlayersInput = "2";
 
-            Program.RequestNumberOfPlayers(board, testWrite.Write, testRead.Read);
+            testRead.SetToBeRead(invalidNumberOfPlayersInput);
+            testRead.SetToBeRead(validNumberOfPlayersInput);
+
+            var maxNumberOfPlayers = 2;
+            
+            Program.RequestNumberOfPlayers(maxNumberOfPlayers, testWrite.Write, testRead.Read);
 
             Assert.True(testWrite.HasText("not a valid number of players"));
         }
 
+        public void GivenValidNumberOfPlayerInput_ReturnNumberOfPlayer()
+        {
+            var testRead = new TestRead();
+            var testWrite = new TestWrite();
 
+            var validNumberOfPlayersInput = "2";
+
+            testRead.SetToBeRead(validNumberOfPlayersInput);
+
+            var maxNumberOfPlayers = 2;
+            
+            var numberOfPlayers = Program.RequestNumberOfPlayers(maxNumberOfPlayers, testWrite.Write, testRead.Read);
+            
+            var expected = int.Parse(validNumberOfPlayersInput);
+            Assert.Equal(expected, numberOfPlayers);;
+        }
+
+        [Fact]
+        public void GivenTwoSameTokenInputs_ReturnInvalidMessage()
+        {
+            var testRead = new TestRead();
+            var testWrite = new TestWrite();
+            var numberOfPlayers = 2;
+            
+            testRead.SetToBeRead("x");
+            testRead.SetToBeRead("x");
+            testRead.SetToBeRead("y");
+          
+            Program.PlayersChooseToken(numberOfPlayers, testWrite.Write, testRead.Read);
+
+            Assert.True(testWrite.HasText("token is already taken"));
+        }
     }
 }

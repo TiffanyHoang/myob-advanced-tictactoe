@@ -64,12 +64,11 @@ namespace TicTacToe_App
             }
         }
 
-        public static ValidationInput CheckForValidNumberOfPlayersInput (Board board, string input)
+        public static ValidationInput CheckForValidNumberOfPlayersInput (int maxNumberOfPlayer, string input)
         {
             try {
-
                 int numberOfPlayers = int.Parse(input);
-                if ((board.BoardSize == 3 && numberOfPlayers !=2) ||numberOfPlayers < 2 || numberOfPlayers > 4)
+                if(numberOfPlayers > maxNumberOfPlayer || numberOfPlayers < 2)
                 {
                     return ValidationInput.Invalid;
                 }
@@ -89,7 +88,7 @@ namespace TicTacToe_App
             if (input.Length > 1 || input == ".")
             {
                 return ValidationInput.Invalid;
-            } else{
+            } else {
                 return ValidationInput.Valid;
             }
         }

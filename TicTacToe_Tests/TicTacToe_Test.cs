@@ -12,7 +12,15 @@ namespace TicTacToe_Tests
         public void SetToBeRead(string value) => _value.Enqueue(value);
 
         public string Read() => _value.Dequeue();
-        
+        public void Print()
+        {
+            foreach (var value in _value)
+            {
+               Console.WriteLine(value);
+            }
+
+        }
+
     }
 
     public class TestWrite

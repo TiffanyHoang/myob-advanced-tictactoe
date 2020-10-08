@@ -85,59 +85,39 @@ namespace TicTacToe_Tests
         }
 
         [Theory]
+        [InlineData(2, "2")]
         [InlineData(3, "2")]
+        [InlineData(3, "3")]
         [InlineData(4, "2")]
-        [InlineData(5, "2")]
         [InlineData(4, "3")]
-        [InlineData(5, "3")]
         [InlineData(4, "4")]
-        [InlineData(5, "4")]
-        public void GivenValidNumberOfPlayers_ReturnValidInput(int boardSize, string numberOfPlayersInput)
+        public void GivenValidNumberOfPlayers_ReturnValidInput(int maxNumberOfPLayer, string numberOfPlayersInput)
         {
-            var board = new Board(boardSize);
             var expected = ValidationInput.Valid;
-            var actual = Rules.CheckForValidNumberOfPlayersInput(board, numberOfPlayersInput);
+            var actual = Rules.CheckForValidNumberOfPlayersInput(maxNumberOfPLayer, numberOfPlayersInput);
 
             Assert.Equal(expected, actual);
         }
 
         [Theory]
-        [InlineData(3, "3")]
         [InlineData(3, "4")]
         [InlineData(3, "q")]
         [InlineData(3, "1")]
-        [InlineData(3, "5")]
         [InlineData(3, "-1")]
-        public void GivenInvalidNumberOfPlayers_ReturnInvalidInput(int boardSize, string numberOfPlayersInput)
+        public void GivenInvalidNumberOfPlayers_ReturnInvalidInput(int maxNumberOfPLayer, string numberOfPlayersInput)
         {
-            var board = new Board(boardSize);
             var expected = ValidationInput.Invalid;
-            var actual = Rules.CheckForValidNumberOfPlayersInput(board, numberOfPlayersInput);
-
-            Assert.Equal(expected, actual);
-        }
-        
-        [Theory]
-        [InlineData("x")]
-        [InlineData("1")]
-        [InlineData("%")]
-        [InlineData("*")]
-        public void GivenValidTokenInput_ReturnValidInput(string tokenInput)
-        {
-            var expected = ValidationInput.Valid;
-            var actual = Rules.CheckForValidTokenInput(tokenInput);
+            var actual = Rules.CheckForValidNumberOfPlayersInput(maxNumberOfPLayer, numberOfPlayersInput);
 
             Assert.Equal(expected, actual);
         }
 
-        [Theory]
-        [InlineData(".")]
-        [InlineData("11")]
-        [InlineData("%%")]
-        [InlineData("*a")]
-        public void GivenInvalidTokenInput_ReturnInvalidInput(string tokenInput)
+         [Theory]
+        [InlineData("x", ValidationInput.Valid)]
+        [InlineData(".", ValidationInput.Invalid)]
+        [InlineData("11", ValidationInput.Invalid)]
+        public void GivenTokenInput_ReturnsCorrectResult(string tokenInput, ValidationInput expected)
         {
-            var expected = ValidationInput.Invalid;
             var actual = Rules.CheckForValidTokenInput(tokenInput);
 
             Assert.Equal(expected, actual);
