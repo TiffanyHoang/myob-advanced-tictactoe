@@ -21,7 +21,7 @@ namespace TicTacToe_Tests
             {
                 foreach (var cell in row)
                 {
-                    Assert.Equal(TokenType.Empty, cell);
+                    Assert.Equal(" ", cell);
                     cellCount += 1;
                 }
             }

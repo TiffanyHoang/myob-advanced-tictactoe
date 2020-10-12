@@ -12,15 +12,6 @@ namespace TicTacToe_Tests
         public void SetToBeRead(string value) => _value.Enqueue(value);
 
         public string Read() => _value.Dequeue();
-        public void Print()
-        {
-            foreach (var value in _value)
-            {
-               Console.WriteLine(value);
-            }
-
-        }
-
     }
 
     public class TestWrite
@@ -41,7 +32,6 @@ namespace TicTacToe_Tests
                     hasText += 1; 
                 }
             }
-
             return hasText != 0;
         }
     }
@@ -54,7 +44,9 @@ namespace TicTacToe_Tests
             var testWrite = new TestWrite();
             var testRead = new TestRead();
             var board = new Board();
-            var newGame = new TicTacToe(board, testWrite.Write, testRead.Read);
+            var playerList = new string[]{"T", "D"};
+
+            var newGame = new TicTacToe(board, playerList, testWrite.Write, testRead.Read);
 
             testRead.SetToBeRead("q");
             newGame.RunGame();
@@ -71,28 +63,13 @@ namespace TicTacToe_Tests
             var testWrite = new TestWrite();
             var testRead = new TestRead();
             var board = new Board();
-            var newGame = new TicTacToe(board, testWrite.Write, testRead.Read);
+            var playerList = new string[]{"T", "D"};
+
+            var newGame = new TicTacToe(board, playerList, testWrite.Write, testRead.Read);
 
             testRead.SetToBeRead("q");
 
             Assert.Equal(GameStatus.PlayerQuit, newGame.RunGame());
-        }
-
-        [Fact]
-        public void PlayerXWin_ReturnXWinStatus()
-        {
-            var testWrite = new TestWrite();
-            var testRead = new TestRead();
-            var board = new Board();
-            var newGame = new TicTacToe(board, testWrite.Write, testRead.Read);
-
-            testRead.SetToBeRead("1,1");
-            testRead.SetToBeRead("1,2");
-            testRead.SetToBeRead("2,1");
-            testRead.SetToBeRead("1,3");
-            testRead.SetToBeRead("3,1");
-
-            Assert.Equal(GameStatus.XWin, newGame.RunGame());
         }
 
         [Fact]
@@ -101,7 +78,9 @@ namespace TicTacToe_Tests
             var testWrite = new TestWrite();
             var testRead = new TestRead();
             var board = new Board();
-            var newGame = new TicTacToe(board, testWrite.Write, testRead.Read);
+            var playerList = new string[]{"T", "D"};
+
+            var newGame = new TicTacToe(board, playerList, testWrite.Write, testRead.Read);
 
             testRead.SetToBeRead("1,1");
             testRead.SetToBeRead("1,2");
@@ -110,7 +89,9 @@ namespace TicTacToe_Tests
             testRead.SetToBeRead("3,3");
             testRead.SetToBeRead("3,2");
 
-            Assert.Equal(GameStatus.OWin, newGame.RunGame());
+            newGame.RunGame();
+
+            Assert.True(testWrite.HasText("Player 2 win"));
         }
 
         [Fact]
@@ -119,7 +100,9 @@ namespace TicTacToe_Tests
             var testWrite = new TestWrite();
             var testRead = new TestRead();
             var board = new Board();
-            var newGame = new TicTacToe(board, testWrite.Write, testRead.Read);
+            var playerList = new string[]{"T", "D"};
+
+            var newGame = new TicTacToe(board, playerList, testWrite.Write, testRead.Read);
 
             testRead.SetToBeRead("-1,1");
             testRead.SetToBeRead("q");
@@ -134,7 +117,9 @@ namespace TicTacToe_Tests
             var testWrite = new TestWrite();
             var testRead = new TestRead();
             var board = new Board();
-            var newGame = new TicTacToe(board, testWrite.Write, testRead.Read);
+            var playerList = new string[]{"T", "D"};
+            
+            var newGame = new TicTacToe(board, playerList, testWrite.Write, testRead.Read);
 
             testRead.SetToBeRead("1,1");
             testRead.SetToBeRead("1,1");
@@ -150,7 +135,8 @@ namespace TicTacToe_Tests
             var testWrite = new TestWrite();
             var testRead = new TestRead();
             var board = new Board();
-            var newGame = new TicTacToe(board, testWrite.Write, testRead.Read);
+            var playerList = new string[]{"T", "D"};
+            var newGame = new TicTacToe(board, playerList, testWrite.Write, testRead.Read);
 
             testRead.SetToBeRead("1,1");
             testRead.SetToBeRead("1,2");

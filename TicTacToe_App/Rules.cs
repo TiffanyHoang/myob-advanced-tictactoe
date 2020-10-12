@@ -30,7 +30,7 @@ namespace TicTacToe_App
                     return ValidationMessage.InvalidCoord;
                 }
 
-                var occupiedCoord = board.Grid[x][y] != TokenType.Empty;
+                var occupiedCoord = board.Grid[x][y] != " ";
 
                 if (occupiedCoord)
                 {
@@ -49,14 +49,7 @@ namespace TicTacToe_App
         {
             try {
                 int boardSizeOption = int.Parse(input);
-                if (boardSizeOption < 1 || boardSizeOption > 3)
-                {
-                    return ValidationInput.Invalid;
-                }
-                else
-                {
-                    return ValidationInput.Valid;
-                }
+                return boardSizeOption < 1 || boardSizeOption > 3 ? ValidationInput.Invalid : ValidationInput.Valid;
             }
             catch 
             {
@@ -68,14 +61,7 @@ namespace TicTacToe_App
         {
             try {
                 int numberOfPlayers = int.Parse(input);
-                if(numberOfPlayers > maxNumberOfPlayer || numberOfPlayers < 2)
-                {
-                    return ValidationInput.Invalid;
-                }
-                else
-                {
-                    return ValidationInput.Valid;
-                }
+                return numberOfPlayers > maxNumberOfPlayer || numberOfPlayers < 2 ? ValidationInput.Invalid : ValidationInput.Valid;
             }
             catch 
             {

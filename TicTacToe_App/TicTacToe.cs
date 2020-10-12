@@ -9,67 +9,71 @@ namespace TicTacToe_App
         private readonly Action<string> _write;
         private readonly Func<string> _read;
 
-        public TicTacToe(Board board, Action<string> write, Func<string> read)
+        private readonly string[] _playerList;
+        // public TicTacToe(Board board, Action<string> write, Func<string> read)
+        // {
+        //     _board = board;
+        //     _write = write;
+        //     _read = read;
+        // }
+
+         public TicTacToe(Board board, string[] playerList, Action<string> write, Func<string> read)
         {
             _board = board;
+            _playerList = playerList;
             _write = write;
             _read = read;
         }
 
         public GameStatus RunGame()
         {
-            var isXTurn = true;            
             _write("Welcome to Tic Tac Toe!\nHere's the current board:\n");
 
             _write(_board.PrintBoard());
 
             while (true)
             {
-                var currentPlayer = isXTurn ? TokenType.X : TokenType.O;
-                var validInput = CheckCurrentPlayerInput(currentPlayer);
-
-                if (validInput == "q")
+                for(int playerIndex = 0 ; playerIndex < _playerList.Length; playerIndex++)
                 {
-                    _write($"{currentPlayer} quit!");
-                    return GameStatus.PlayerQuit;
-                } 
+                    var currentPlayer = _playerList[playerIndex];
 
-                _board.UpdateBoard(_board, currentPlayer, validInput);
+                    var validInput = CheckCurrentPlayerInput(currentPlayer, playerIndex);
 
-                PrintUpdateBoard();
+                    if (validInput == "q")
+                    {
+                        _write($"{currentPlayer} quit!");
+                        return GameStatus.PlayerQuit;
+                    } 
 
-                var gameResult = GameResult.CheckWinner(_board);
+                    _board.UpdateBoard(_board, currentPlayer, validInput);
 
-                if (gameResult == GameStatus.XWin)
-                {
-                    _write("Player X win!");
-                    return GameStatus.XWin;
+                    PrintUpdateBoard();
+
+                    var gameResult = GameResult.CheckWinner(_board, currentPlayer);
+
+                    if (gameResult == GameStatus.Win)
+                    {
+                        _write($"Player {playerIndex + 1} win!");
+                        return GameStatus.Win;
+                    }
+
+                    if (gameResult == GameStatus.Draw)
+                    {
+                        _write("Draw!");
+                        return GameStatus.Draw;
+                    }
                 }
-
-                if (gameResult == GameStatus.OWin)
-                {
-                    _write("Player O win!");
-                    return GameStatus.OWin;
-                }
-
-                if (gameResult == GameStatus.Draw)
-                {
-                    _write("Draw!");
-                    return GameStatus.Draw;
-                }
-
-                isXTurn = !isXTurn;
             }
         }
 
-        private void PrintInstruction(TokenType player)
+        private void PrintInstruction(string currentPlayer, int playerIndex)
         {
-            _write($"Player {player} enter a coord x,y to place your {player} or enter 'q' to give up:");
+            _write($"Player {playerIndex + 1} enter a coord x,y to place your {currentPlayer} or enter 'q' to give up:");
         }
 
-        private string RequestInput(TokenType currentPlayer)
+        private string RequestInput(string currentPlayer, int playerIndex)
         {
-            PrintInstruction(currentPlayer);
+            PrintInstruction(currentPlayer, playerIndex);
             return _read();
         }
 
@@ -79,12 +83,12 @@ namespace TicTacToe_App
             _write(_board.PrintBoard());
         }
 
-        private string CheckCurrentPlayerInput (TokenType currentPlayer)
+        private string CheckCurrentPlayerInput (string currentPlayer, int playerIndex)
         {
             var playerInput = "";
             while (true)
             { 
-                playerInput = RequestInput(currentPlayer);
+                playerInput = RequestInput(currentPlayer, playerIndex);
 
                 if (playerInput == "q")
                 {

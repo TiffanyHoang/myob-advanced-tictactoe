@@ -35,7 +35,7 @@ namespace TicTacToe_Tests
         [InlineData("1,-1")]
         [InlineData("4,1")]
         [InlineData("1,4")]
-        public void GivenAInvalidCoord_ReturnInvalidCoordMessage(string input)
+        public void GivenACoord_ReturnCorrectResult(string input)
         {
             var board = new Board();
             var inputCoord = input;
@@ -51,7 +51,7 @@ namespace TicTacToe_Tests
         public void GivenAOccupiedCoord_ReturnOccupiedCellMessage(string input)
         {
             var board = new Board();
-            board.UpdateBoard(board, TokenType.X, input);
+            board.UpdateBoard(board, "X", input);
 
             var expected = ValidationMessage.OccupiedCell;
             var actual = Rules.CheckForValidCoord(board, input);
@@ -59,54 +59,26 @@ namespace TicTacToe_Tests
             Assert.Equal(expected, actual);
         }
 
+
         [Theory]
-        [InlineData("4")]
-        [InlineData("0")]
-        [InlineData("-1")]   
-        [InlineData("q")]
-        public void GivenAnInvalidaBoardSizeOption_ReturnInvalidBoardSizeOptionMessage(string boardSizeOption)
+        [InlineData("1", ValidationInput.Valid)]
+        [InlineData("4", ValidationInput.Invalid)]
+        [InlineData("0", ValidationInput.Invalid)]
+        [InlineData("q", ValidationInput.Invalid)]
+        public void GivenABoardSizeOption_ReturnCorrectResult(string boardSizeOption, ValidationInput expected)
         {
-            var expected = ValidationInput.Invalid;
             var actual = Rules.CheckForValidBoardSizeOption(boardSizeOption);
 
             Assert.Equal(expected, actual);
         }
 
         [Theory]
-        [InlineData("1")]
-        [InlineData("2")]
-        [InlineData("3")]
-        public void GivenAValidaBoardSizeOption_ReturnValidBoardSizeOptionMessage(string boardSizeOption)
+        [InlineData(3, "2", ValidationInput.Valid)]
+        [InlineData(3, "4", ValidationInput.Invalid)]
+        [InlineData(3, "1", ValidationInput.Invalid)]
+        [InlineData(3, "q", ValidationInput.Invalid)]
+        public void GivenNumberOfPlayers_ReturnCorrectResult(int maxNumberOfPLayer, string numberOfPlayersInput, ValidationInput expected)
         {
-            var expected = ValidationInput.Valid;
-            var actual = Rules.CheckForValidBoardSizeOption(boardSizeOption);
-
-            Assert.Equal(expected, actual);
-        }
-
-        [Theory]
-        [InlineData(2, "2")]
-        [InlineData(3, "2")]
-        [InlineData(3, "3")]
-        [InlineData(4, "2")]
-        [InlineData(4, "3")]
-        [InlineData(4, "4")]
-        public void GivenValidNumberOfPlayers_ReturnValidInput(int maxNumberOfPLayer, string numberOfPlayersInput)
-        {
-            var expected = ValidationInput.Valid;
-            var actual = Rules.CheckForValidNumberOfPlayersInput(maxNumberOfPLayer, numberOfPlayersInput);
-
-            Assert.Equal(expected, actual);
-        }
-
-        [Theory]
-        [InlineData(3, "4")]
-        [InlineData(3, "q")]
-        [InlineData(3, "1")]
-        [InlineData(3, "-1")]
-        public void GivenInvalidNumberOfPlayers_ReturnInvalidInput(int maxNumberOfPLayer, string numberOfPlayersInput)
-        {
-            var expected = ValidationInput.Invalid;
             var actual = Rules.CheckForValidNumberOfPlayersInput(maxNumberOfPLayer, numberOfPlayersInput);
 
             Assert.Equal(expected, actual);

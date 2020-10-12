@@ -78,5 +78,23 @@ namespace TicTacToe_Tests
 
             Assert.True(testWrite.HasText("token is already taken"));
         }
+
+        [Fact]
+        public void GivenTwoPlayerWithTokenTAndD_WhenPlayerPlacedTheirFirstToken_ReturnTheBoardWithTwoToken()
+        {
+            var testRead = new TestRead();
+            var testWrite = new TestWrite();
+            var board = new Board();
+            var playerList = new string[]{"T", "D"};
+
+            var newGame = new TicTacToe(board, playerList, testWrite.Write, testRead.Read);
+            testRead.SetToBeRead("1,1");
+            testRead.SetToBeRead("1,2");
+            testRead.SetToBeRead("q");
+
+            newGame.RunGame();
+
+            Assert.True(testWrite.HasText("TD.\n...\n...\n"));
+        }
     }
 }

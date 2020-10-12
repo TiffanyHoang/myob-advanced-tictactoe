@@ -8,7 +8,6 @@ namespace TicTacToe_App
         {
             var boardSizeOption = RequestBoardSizeOption(Console.WriteLine, Console.ReadLine);
             var boardSize = SetBoardSize(boardSizeOption);
-
             var board = new Board(boardSize);
 
             var maxNumberOfPlayers = CheckMaxNumberOfPlayerAgainstABoardSize(boardSize);
@@ -17,7 +16,8 @@ namespace TicTacToe_App
 
             var playerList = PlayersChooseToken(numberOfPlayers, Console.WriteLine, Console.ReadLine);
 
-            var newGame = new TicTacToe(board, Console.Write, Console.ReadLine);
+            var newGame = new TicTacToe(board, playerList, Console.Write, Console.ReadLine);
+            
             newGame.RunGame();
         }
 
@@ -34,6 +34,7 @@ namespace TicTacToe_App
                 boardSizeInput = read();
 
                 var validationInput = Rules.CheckForValidBoardSizeOption(boardSizeInput);
+                
                 if (validationInput == ValidationInput.Invalid)
                 {
                     write("Sorry, it's not a valid option.");

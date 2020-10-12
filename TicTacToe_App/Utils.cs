@@ -17,6 +17,7 @@ namespace TicTacToe_App
 
     public enum GameStatus
     {
+        Win,
         XWin,
         OWin,
         Draw,

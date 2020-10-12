@@ -6,7 +6,7 @@ namespace TicTacToe_App
 {
     public class Board
     {
-        public TokenType[][] Grid{ get; set; }
+        public string[][] Grid{ get; set; }
         public int BoardSize{ get; set; }
         public Board(int boardSize = 3)
         {
@@ -14,15 +14,15 @@ namespace TicTacToe_App
             Grid = CreateGrid(BoardSize);
         }
 
-        public TokenType[][] CreateGrid (int boardSize)
+        public string[][] CreateGrid (int boardSize)
         {
-            var grid = new TokenType[boardSize][];
+            var grid = new string[boardSize][];
             for (int row = 0; row < boardSize; row++)
             {
-                var colArray = new TokenType[boardSize];
+                var colArray = new string[boardSize];
                 for (int col = 0; col < boardSize ; col++)
                 {
-                    colArray[col] = TokenType.Empty;
+                    colArray[col] = " ";
                 }
                 grid[row] = colArray;
             }
@@ -37,15 +37,12 @@ namespace TicTacToe_App
             {
                 foreach (var cell in row)
                 {
-                    if (cell == TokenType.Empty)
+                    if (cell == " ")
                     {
                         boardString += ".";
-                    } else if (cell == TokenType.O)
-                    {
-                        boardString += "O";
                     } else
                     {
-                        boardString += "X";
+                        boardString += cell;
                     }
                 }
                 boardString += "\n";
@@ -53,7 +50,7 @@ namespace TicTacToe_App
             return boardString;
         }
 
-        public Board UpdateBoard(Board currentBoard, TokenType token, string coord)
+        public Board UpdateBoard(Board currentBoard, string token, string coord)
         {
             var coordArray = coord.Split(",").Select(int.Parse).ToArray();
             var x = coordArray[0] - 1;

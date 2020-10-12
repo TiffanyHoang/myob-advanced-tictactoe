@@ -11,12 +11,12 @@ namespace TicTacToe_Tests
         {
             var board = new Board();
 
-            board.UpdateBoard(board, TokenType.X, "1,1");
-            board.UpdateBoard(board, TokenType.X, "1,2");
-            board.UpdateBoard(board, TokenType.X, "1,3");
+            board.UpdateBoard(board, "X", "1,1");
+            board.UpdateBoard(board, "X", "1,2");
+            board.UpdateBoard(board, "X", "1,3");
 
-            var actual = GameResult.CheckWinner(board);
-            var expected = GameStatus.XWin;
+            var actual = GameResult.CheckWinner(board, "X");
+            var expected = GameStatus.Win;
             Assert.Equal(expected, actual);
         }
 
@@ -25,115 +25,61 @@ namespace TicTacToe_Tests
         {
             var board = new Board();
 
-            board.UpdateBoard(board, TokenType.X, "1,1");
-            board.UpdateBoard(board, TokenType.X, "2,1");
-            board.UpdateBoard(board, TokenType.X, "3,1");
+            board.UpdateBoard(board, "X", "1,1");
+            board.UpdateBoard(board, "X", "2,1");
+            board.UpdateBoard(board, "X", "3,1");
 
-            var actual = GameResult.CheckWinner(board);
-            var expected = GameStatus.XWin;
+            var actual = GameResult.CheckWinner(board, "X");
+            var expected = GameStatus.Win;
             Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public void ThreeTokenXOnTheLeftDiagonal_ReturnXWin()
+        public void ThreeTokenXOnTheDiagonal_ReturnXWin()
         {
             var board = new Board();
 
-            board.UpdateBoard(board, TokenType.X, "1,1");
-            board.UpdateBoard(board, TokenType.X, "2,2");
-            board.UpdateBoard(board, TokenType.X, "3,3");
+            board.UpdateBoard(board, "X", "1,1");
+            board.UpdateBoard(board, "X", "2,2");
+            board.UpdateBoard(board, "X", "3,3");
 
-            var actual = GameResult.CheckWinner(board);
-            var expected = GameStatus.XWin;
+            var actual = GameResult.CheckWinner(board,"X");
+            var expected = GameStatus.Win;
             Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public void ThreeTokenXOnTheRightDiagonal_ReturnXWin()
+        public void ThreeTokenXOnTheAntiDiagonal_ReturnXWin()
         {
             var board = new Board();
 
-            board.UpdateBoard(board, TokenType.X, "1,3");
-            board.UpdateBoard(board, TokenType.X, "2,2");
-            board.UpdateBoard(board, TokenType.X, "3,1");
+            board.UpdateBoard(board, "X", "1,3");
+            board.UpdateBoard(board, "X", "2,2");
+            board.UpdateBoard(board, "X", "3,1");
 
-            var actual = GameResult.CheckWinner(board);
-            var expected = GameStatus.XWin;
+            var actual = GameResult.CheckWinner(board,"X");
+            var expected = GameStatus.Win;
             Assert.Equal(expected, actual);
         }
 
-        [Fact]
-        public void ThreeTokenOOnTheSameRow_ReturnOWin()
-        {
-            var board = new Board();
-
-            board.UpdateBoard(board, TokenType.O, "1,1");
-            board.UpdateBoard(board, TokenType.O, "1,2");
-            board.UpdateBoard(board, TokenType.O, "1,3");
-
-            var actual = GameResult.CheckWinner(board);
-            var expected = GameStatus.OWin;
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void ThreeTokenOOnTheSameCol_ReturnOWin()
-        {
-            var board = new Board();
-
-            board.UpdateBoard(board, TokenType.O, "1,1");
-            board.UpdateBoard(board, TokenType.O, "2,1");
-            board.UpdateBoard(board, TokenType.O, "3,1");
-
-            var actual = GameResult.CheckWinner(board);
-            var expected = GameStatus.OWin;
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void ThreeTokenOOnTheLeftDiagonal_ReturnOWin()
-        {
-            var board = new Board();
-
-            board.UpdateBoard(board, TokenType.O, "1,1");
-            board.UpdateBoard(board, TokenType.O, "2,2");
-            board.UpdateBoard(board, TokenType.O, "3,3");
-
-            var actual = GameResult.CheckWinner(board);
-            var expected = GameStatus.OWin;
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void ThreeTokenOOnTheRightDiagonal_ReturnOWin()
-        {
-            var board = new Board();
-
-            board.UpdateBoard(board, TokenType.O, "1,3");
-            board.UpdateBoard(board, TokenType.O, "2,2");
-            board.UpdateBoard(board, TokenType.O, "3,1");
-
-            var actual = GameResult.CheckWinner(board);
-            var expected = GameStatus.OWin;
-            Assert.Equal(expected, actual);
-        }
+        
 
         [Fact]
         public void Fullboard_ReturnDraw()
         {
             var board = new Board();
 
-            board.UpdateBoard(board, TokenType.O, "1,1");
-            board.UpdateBoard(board, TokenType.O, "1,3");
-            board.UpdateBoard(board, TokenType.O, "2,2");
-            board.UpdateBoard(board, TokenType.O, "3,2");
-            board.UpdateBoard(board, TokenType.X, "1,2");
-            board.UpdateBoard(board, TokenType.X, "2,1");
-            board.UpdateBoard(board, TokenType.X, "2,3");
-            board.UpdateBoard(board, TokenType.X, "3,1");
-            board.UpdateBoard(board, TokenType.X, "3,3");
+            board.UpdateBoard(board, "O", "1,1");
+            board.UpdateBoard(board, "O", "1,3");
+            board.UpdateBoard(board, "O", "2,2");
+            board.UpdateBoard(board, "O", "3,2");
+            board.UpdateBoard(board, "X", "1,2");
+            board.UpdateBoard(board, "X", "2,1");
+            board.UpdateBoard(board, "X", "2,3");
+            board.UpdateBoard(board, "X", "3,1");
+            board.UpdateBoard(board, "X", "3,3");
 
-            var actual = GameResult.CheckWinner(board);
+            var actual = GameResult.CheckWinner(board, "X");
             var expected = GameStatus.Draw;
             Assert.Equal(expected, actual);
         }
@@ -143,16 +89,16 @@ namespace TicTacToe_Tests
         {
             var board = new Board();
 
-            board.UpdateBoard(board, TokenType.O, "1,1");
-            board.UpdateBoard(board, TokenType.O, "1,3");
-            board.UpdateBoard(board, TokenType.O, "2,2");
-            board.UpdateBoard(board, TokenType.O, "3,2");
-            board.UpdateBoard(board, TokenType.X, "1,2");
-            board.UpdateBoard(board, TokenType.X, "2,1");
-            board.UpdateBoard(board, TokenType.X, "2,3");
-            board.UpdateBoard(board, TokenType.X, "3,1");
+            board.UpdateBoard(board, "O", "1,1");
+            board.UpdateBoard(board, "O", "1,3");
+            board.UpdateBoard(board, "O", "2,2");
+            board.UpdateBoard(board, "O", "3,2");
+            board.UpdateBoard(board, "X", "1,2");
+            board.UpdateBoard(board, "X", "2,1");
+            board.UpdateBoard(board, "X", "2,3");
+            board.UpdateBoard(board, "X", "3,1");
 
-            var actual = GameResult.CheckWinner(board);
+            var actual = GameResult.CheckWinner(board, "X");
             var expected = GameStatus.Continue;
             Assert.Equal(expected, actual);
         }
