@@ -10,14 +10,8 @@ namespace TicTacToe_App
         private readonly Func<string> _read;
 
         private readonly string[] _playerList;
-        // public TicTacToe(Board board, Action<string> write, Func<string> read)
-        // {
-        //     _board = board;
-        //     _write = write;
-        //     _read = read;
-        // }
 
-         public TicTacToe(Board board, string[] playerList, Action<string> write, Func<string> read)
+        public TicTacToe(Board board, string[] playerList, Action<string> write, Func<string> read)
         {
             _board = board;
             _playerList = playerList;

@@ -14,79 +14,61 @@ namespace TicTacToe_App
 
             var isPlayerWin = winningCombinations.Any(winningCombination => winningCombination.SequenceEqual(playerWin));
             
-            var emptyCells = 0; 
-            foreach(var row in board.Grid)
-            {
-                foreach(var cell in row)
-                {
-                    if (cell != " ")
-                    {
-                        emptyCells += 1;
-                    }
-                }
-            }
-
-            var cellCount = 0;
-            foreach (var row in board.Grid)
-            {
-                foreach (var cell in row)
-                {
-                    cellCount += 1;
-                }
-            }
+            var occupiedCells = GetOccupiedCells(board);
+          
+            var totalCellsOfBoard = board.BoardSize * board.BoardSize;
 
             if (isPlayerWin)
             {
                 return GameStatus.Win;
-            } else if(emptyCells == cellCount)
+            } else if(occupiedCells == totalCellsOfBoard)
             {
                 return GameStatus.Draw;
             }
 
             return GameStatus.Continue;
         }
-
+        private static int GetOccupiedCells(Board board)
+        {
+            var occupiedCells = 0; 
+            foreach(var row in board.Grid)
+            {
+                foreach(var cell in row)
+                {
+                    if (cell != " ")
+                    {
+                        occupiedCells += 1;
+                    }
+                }
+            }
+            return occupiedCells;
+        }
+    
         private static List<string[]> GetWinningCombinations(Board board)
         {
             var winningCombinations = new List<string[]>();
-
-            for (int rowIndex = 0; rowIndex < board.BoardSize; rowIndex++)
-            {
-                var winningCombinationRows = new string[board.BoardSize];
-                for(int colIndex = 0; colIndex < board.BoardSize; colIndex++)
-                {
-                    winningCombinationRows[colIndex] = board.Grid[rowIndex][colIndex];
-                }
-                winningCombinations.Add(winningCombinationRows) ;
-            }
+            var winningCombinationDiagonals = new string[board.BoardSize];
+            var winningCombinationAntiDiagonals = new string[board.BoardSize];
+            int colIndexAntiDiagonal = board.BoardSize;
 
             for (int rowIndex = 0; rowIndex < board.BoardSize; rowIndex++)
             {
                 var winningCombinationCols = new string[board.BoardSize];
+                var winningCombinationRows = new string[board.BoardSize];
                 for(int colIndex = 0; colIndex < board.BoardSize; colIndex++)
                 {
                     winningCombinationCols[colIndex] = board.Grid[colIndex][rowIndex];
+                    winningCombinationRows[colIndex] = board.Grid[rowIndex][colIndex];
                 }
-                winningCombinations.Add(winningCombinationCols);
-            }
-            
-            var winningCombinationDiagonals = new string[board.BoardSize];
-            for (int rowIndex = 0; rowIndex < board.BoardSize; rowIndex++)
-            {
-                var colIndex = rowIndex;
-                winningCombinationDiagonals[rowIndex] = board.Grid[rowIndex][colIndex];
-            }
-             winningCombinations.Add(winningCombinationDiagonals);
-
-            var winningCombinationAntiDiagonals = new string[board.BoardSize];
-            int colIndexAntiDiagonal = board.BoardSize;
-            for (int rowIndex = 0; rowIndex < board.BoardSize; rowIndex++)
-            {
+                winningCombinationDiagonals[rowIndex] = board.Grid[rowIndex][rowIndex];
                 colIndexAntiDiagonal -= 1;
                 winningCombinationAntiDiagonals[rowIndex] = board.Grid[rowIndex][colIndexAntiDiagonal];
+                
+                winningCombinations.Add(winningCombinationCols);
+                winningCombinations.Add(winningCombinationRows);
+                winningCombinations.Add(winningCombinationAntiDiagonals);
+                winningCombinations.Add(winningCombinationDiagonals);
             }
-            winningCombinations.Add(winningCombinationAntiDiagonals);
-
             return winningCombinations;
         }
 

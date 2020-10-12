@@ -1,13 +1,6 @@
 ﻿using System;
 namespace TicTacToe_App
 {
-    public enum TokenType
-    {
-        X,
-        O,
-        Empty
-    }
-
     public enum ValidationMessage
     {
         ValidCoord,
@@ -18,8 +11,6 @@ namespace TicTacToe_App
     public enum GameStatus
     {
         Win,
-        XWin,
-        OWin,
         Draw,
         Continue,
         PlayerQuit
@@ -29,6 +20,5 @@ namespace TicTacToe_App
     {
         Valid,
         Invalid
-
     }
 }
