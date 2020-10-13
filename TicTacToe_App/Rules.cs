@@ -45,6 +45,45 @@ namespace TicTacToe_App
             }
         }
 
+        public static ValidationMessage CheckForValid3DCoord(ThreeDBoard board, string input)
+        {
+            try
+            {
+                var coordArray = input.Split(",").Select(int.Parse).ToArray();
+                var not3IntegerNumbersSeparatedByComma = coordArray.Length != 3;
+
+                if (not3IntegerNumbersSeparatedByComma)
+                {
+                    return ValidationMessage.InvalidCoord;
+                }
+
+                var x = coordArray[0] - 1;
+                var y = coordArray[1] - 1;
+                var z = coordArray[2] - 1;
+                var coordIsNegativeNumber = x < 0 || y < 0 || z < 0;
+
+                var coordIsOutsideOfBoard = x >= board.BoardSize || y >= board.BoardSize || z >= board.BoardSize;
+
+                if (coordIsNegativeNumber || coordIsOutsideOfBoard)
+                {
+                    return ValidationMessage.InvalidCoord;
+                }
+
+                var occupiedCoord = board.ThreeDGrid[x][y][z] != " ";
+
+                if (occupiedCoord)
+                {
+                    return ValidationMessage.OccupiedCell;
+                }
+
+                return ValidationMessage.ValidCoord;
+            }
+            catch
+            {
+                return ValidationMessage.InvalidCoord;
+            }
+        }
+
         public static ValidationInput CheckForValidBoardTypeOption(string input)
         {
             try {

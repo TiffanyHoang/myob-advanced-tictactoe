@@ -6,10 +6,11 @@ namespace TicTacToe_App
 {
     public interface IBoard
     {
+        
         public string[][] CreateGrid (int boardSize);
         
         public string PrintBoard();
 
-        public Board UpdateBoard(Board currentBoard, string token, string coord);
+        public Board UpdateBoard(IBoard currentBoard, string token, string coord);
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace TicTacToe_App
 {
-    public class Board
+    public class Board 
     {
         public string[][] Grid{ get; set; }
         public int BoardSize{ get; set; }

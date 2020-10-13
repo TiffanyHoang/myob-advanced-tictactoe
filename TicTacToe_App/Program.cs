@@ -27,7 +27,16 @@ namespace TicTacToe_App
             } 
             else
             {
-                
+                var threeDBoard = new ThreeDBoard();
+                var playerList = new string[]
+                {
+                    "X",
+                    "O"
+                };
+
+                // var newGame = new TicTacToe(threeDboard, playerList, Console.Write, Console.ReadLine);
+                // newGame.RunGame();
+
             }
             
         }

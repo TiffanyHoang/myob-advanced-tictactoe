@@ -96,7 +96,7 @@ namespace TicTacToe_Tests
             Assert.Equal(expected, actual);
         }
 
-         [Theory]
+        [Theory]
         [InlineData("x", ValidationInput.Valid)]
         [InlineData(".", ValidationInput.Invalid)]
         [InlineData("11", ValidationInput.Invalid)]
@@ -106,5 +106,25 @@ namespace TicTacToe_Tests
 
             Assert.Equal(expected, actual);
         }
+
+        [Theory]
+        [InlineData("1,1,1", ValidationMessage.ValidCoord)]
+        [InlineData("1,1", ValidationMessage.InvalidCoord)]
+        [InlineData("-1,1,1", ValidationMessage.InvalidCoord)]
+        [InlineData("4,1,1", ValidationMessage.InvalidCoord)]
+        [InlineData("4,1,1", ValidationMessage.InvalidCoord)]
+        [InlineData("2,2,2", ValidationMessage.OccupiedCell)]
+        [InlineData("a,b,c", ValidationMessage.InvalidCoord)]
+
+        public void GivenA3DCoord_ReturnCorrectResult(string input, ValidationMessage expected)
+        {
+            var board = new ThreeDBoard();
+
+            board.UpdateBoard(board, "X", "2,2,2");
+            var actual = Rules.CheckForValid3DCoord(board, input);
+
+            Assert.Equal(expected, actual);
+        }
+
     }
 }
