@@ -6,21 +6,71 @@ namespace TicTacToe_App
     {
         static void Main(string[] args)
         {
-            var boardSizeOption = RequestBoardSizeOption(Console.WriteLine, Console.ReadLine);
-            var boardSize = SetBoardSize(boardSizeOption);
-            var board = new Board(boardSize);
+            var boardTypeOpion = RequestBoardTypeOption(Console.WriteLine, Console.ReadLine);
+            var boardType = SetBoardType(boardTypeOpion);
 
-            var maxNumberOfPlayers = CheckMaxNumberOfPlayerAgainstABoardSize(boardSize);
+            if(boardType == BoardType.Two_D)
+            {
+                var boardSizeOption = RequestBoardSizeOption(Console.WriteLine, Console.ReadLine);
+                var boardSize = SetBoardSize(boardSizeOption);
+                var board = new Board(boardSize);
 
-            var numberOfPlayers = RequestNumberOfPlayers(maxNumberOfPlayers, Console.WriteLine, Console.ReadLine);
+                var maxNumberOfPlayers = CheckMaxNumberOfPlayerAgainstABoardSize(boardSize);
 
-            var playerList = PlayersChooseToken(numberOfPlayers, Console.WriteLine, Console.ReadLine);
+                var numberOfPlayers = RequestNumberOfPlayers(maxNumberOfPlayers, Console.WriteLine, Console.ReadLine);
 
-            var newGame = new TicTacToe(board, playerList, Console.Write, Console.ReadLine);
+                var playerList = PlayersChooseToken(numberOfPlayers, Console.WriteLine, Console.ReadLine);
+
+                var newGame = new TicTacToe(board, playerList, Console.Write, Console.ReadLine);
+                
+                newGame.RunGame();
+            } 
+            else
+            {
+                
+            }
             
-            newGame.RunGame();
+        }
+        
+        public static int RequestBoardTypeOption(Action<string> write, Func<string> read)
+        {
+            var boardTypeInput ="";
+            while(true)
+            {
+                write("Please choose the board type with the option below: \n"
+                + "1 for 2D Board \n"
+                + "2 for 3D Board");
+
+                boardTypeInput = read();
+
+                var validationInput = Rules.CheckForValidBoardTypeOption(boardTypeInput);
+                
+                if (validationInput == ValidationInput.Invalid)
+                {
+                    write("Sorry, it's not a valid option.");
+                }
+                else
+                {
+                    break;
+                }
+            }
+            return int.Parse(boardTypeInput);
         }
 
+        public static BoardType SetBoardType(int boardTypeOption)     
+        {
+            var boardType = BoardType.Two_D;
+            if (boardTypeOption == 1)
+            {
+                boardType = BoardType.Two_D;
+            }
+            else 
+            {
+                boardType = BoardType.Three_D;
+            }
+           
+            return boardType;
+        }
         public static int RequestBoardSizeOption(Action<string> write, Func<string> read)
         {
             var boardSizeInput = "";

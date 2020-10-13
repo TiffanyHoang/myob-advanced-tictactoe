@@ -21,4 +21,10 @@ namespace TicTacToe_App
         Valid,
         Invalid
     }
+
+    public enum BoardType
+    {
+        Two_D,
+        Three_D,
+    }
 }

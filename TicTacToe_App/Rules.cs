@@ -44,6 +44,18 @@ namespace TicTacToe_App
                 return ValidationMessage.InvalidCoord;
             }
         }
+
+        public static ValidationInput CheckForValidBoardTypeOption(string input)
+        {
+            try {
+                int boardTypeOption = int.Parse(input);
+                return boardTypeOption < 1 || boardTypeOption > 2 ? ValidationInput.Invalid : ValidationInput.Valid;
+            }
+            catch 
+            {
+                return ValidationInput.Invalid;
+            }
+        }
     
         public static ValidationInput CheckForValidBoardSizeOption (string input)
         {

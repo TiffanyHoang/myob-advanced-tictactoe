@@ -96,5 +96,24 @@ namespace TicTacToe_Tests
 
             Assert.True(testWrite.HasText("TD.\n...\n...\n"));
         }
+        
+        [Fact]
+        public void GivenABoardTypeOption_ReturnTheCorrectBoardType()
+        {
+            var testRead = new TestRead();
+            var testWrite = new TestWrite();
+
+            var invalidBoardTypeOptionInput = "0";
+            var validBoardTypeOptionInput = "2";
+
+            testRead.SetToBeRead(invalidBoardTypeOptionInput);
+            testRead.SetToBeRead(validBoardTypeOptionInput);
+
+
+            var boardTypeOption = Program.RequestBoardTypeOption(testWrite.Write, testRead.Read);
+            var actual = Program.SetBoardType(boardTypeOption);
+
+            Assert.Equal(BoardType.Three_D, actual);
+        }
     }
 }

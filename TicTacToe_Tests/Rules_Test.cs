@@ -73,6 +73,18 @@ namespace TicTacToe_Tests
         }
 
         [Theory]
+        [InlineData("1", ValidationInput.Valid)]
+        [InlineData("3", ValidationInput.Invalid)]
+        [InlineData("0", ValidationInput.Invalid)]
+        [InlineData("q", ValidationInput.Invalid)]
+        public void GivenABoardTypeOption_ReturnCorrectResult(string boardTypeOption, ValidationInput expected)
+        {
+            var actual = Rules.CheckForValidBoardTypeOption(boardTypeOption);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
         [InlineData(3, "2", ValidationInput.Valid)]
         [InlineData(3, "4", ValidationInput.Invalid)]
         [InlineData(3, "1", ValidationInput.Invalid)]
