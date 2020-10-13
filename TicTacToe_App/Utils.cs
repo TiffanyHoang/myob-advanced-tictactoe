@@ -24,7 +24,7 @@ namespace TicTacToe_App
 
     public enum BoardType
     {
-        Two_D,
-        Three_D,
+        TwoD,
+        ThreeD,
     }
 }

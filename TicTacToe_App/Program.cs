@@ -9,7 +9,7 @@ namespace TicTacToe_App
             var boardTypeOpion = RequestBoardTypeOption(Console.WriteLine, Console.ReadLine);
             var boardType = SetBoardType(boardTypeOpion);
 
-            if(boardType == BoardType.Two_D)
+            if(boardType == BoardType.TwoD)
             {
                 var boardSizeOption = RequestBoardSizeOption(Console.WriteLine, Console.ReadLine);
                 var boardSize = SetBoardSize(boardSizeOption);
@@ -59,14 +59,14 @@ namespace TicTacToe_App
 
         public static BoardType SetBoardType(int boardTypeOption)     
         {
-            var boardType = BoardType.Two_D;
+            var boardType = BoardType.TwoD;
             if (boardTypeOption == 1)
             {
-                boardType = BoardType.Two_D;
+                boardType = BoardType.TwoD;
             }
             else 
             {
-                boardType = BoardType.Three_D;
+                boardType = BoardType.ThreeD;
             }
            
             return boardType;

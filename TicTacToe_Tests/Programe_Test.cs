@@ -45,7 +45,8 @@ namespace TicTacToe_Tests
 
             Assert.True(testWrite.HasText("not a valid number of players"));
         }
-
+        
+        [Fact]
         public void GivenValidNumberOfPlayerInput_ReturnNumberOfPlayer()
         {
             var testRead = new TestRead();
@@ -96,7 +97,7 @@ namespace TicTacToe_Tests
 
             Assert.True(testWrite.HasText("TD.\n...\n...\n"));
         }
-        
+
         [Fact]
         public void GivenABoardTypeOption_ReturnTheCorrectBoardType()
         {
@@ -113,7 +114,7 @@ namespace TicTacToe_Tests
             var boardTypeOption = Program.RequestBoardTypeOption(testWrite.Write, testRead.Read);
             var actual = Program.SetBoardType(boardTypeOption);
 
-            Assert.Equal(BoardType.Three_D, actual);
+            Assert.Equal(BoardType.ThreeD, actual);
         }
     }
 }
