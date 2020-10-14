@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace TicTacToe_App
 {
-    public class ThreeDBoard 
+    public class ThreeDBoard : IBoard
     {
         public string[][][] ThreeDGrid{ get; set; }
         public int BoardSize{ get; set; }
@@ -14,7 +14,7 @@ namespace TicTacToe_App
             ThreeDGrid = CreateGrid(BoardSize);
         }
 
-        public string[][][] CreateGrid (int boardSize)
+        private string[][][] CreateGrid (int boardSize)
         {		
 		    string[][][] threeDGrid = new string[boardSize][][];
 		
@@ -58,16 +58,55 @@ namespace TicTacToe_App
             return boardString;
         }
 
-        public ThreeDBoard UpdateBoard(ThreeDBoard currentBoard, string token, string coord)
+        public void UpdateBoard(string token, string coord)
         {
             var coordArray = coord.Split(",").Select(int.Parse).ToArray();
             var x = coordArray[0] - 1;
             var y = coordArray[1] - 1;
             var z = coordArray[2] - 1;
-            currentBoard.ThreeDGrid[x][y][z]= token;
+            ThreeDGrid[x][y][z]= token;
+        }
 
-            return currentBoard;
+        public ValidationMessage CheckForValidCoord(string input)
+        {
+            try
+            {
+                var coordArray = input.Split(",").Select(int.Parse).ToArray();
+                var not3IntegerNumbersSeparatedByComma = coordArray.Length != 3;
 
+                if (not3IntegerNumbersSeparatedByComma)
+                {
+                    return ValidationMessage.InvalidCoord;
+                }
+
+                var x = coordArray[0] - 1;
+                var y = coordArray[1] - 1;
+                var z = coordArray[2] - 1;
+                var coordIsNegativeNumber = x < 0 || y < 0 || z < 0;
+
+                var coordIsOutsideOfBoard = x >= BoardSize || y >= BoardSize || z >= BoardSize;
+
+                if (coordIsNegativeNumber || coordIsOutsideOfBoard)
+                {
+                    return ValidationMessage.InvalidCoord;
+                }
+
+                var occupiedCoord = ThreeDGrid[x][y][z] != " ";
+
+                if (occupiedCoord)
+                {
+                    return ValidationMessage.OccupiedCell;
+                }
+
+                return ValidationMessage.ValidCoord;
+            }
+            catch
+            {
+                return ValidationMessage.InvalidCoord;
+            }
+        }
+        public GameStatus CheckWinner(string playerToken){
+            return GameStatus.Continue;
         }
     }
 }

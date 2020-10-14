@@ -5,15 +5,18 @@ namespace TicTacToe_App
 {
     public class TicTacToe
     {
-        private readonly Board _board;
+        private readonly IBoard _board;
+        private readonly BoardType _boardType;
+
         private readonly Action<string> _write;
         private readonly Func<string> _read;
 
         private readonly string[] _playerList;
 
-        public TicTacToe(Board board, string[] playerList, Action<string> write, Func<string> read)
+        public TicTacToe(BoardType boardType, IBoard board, string[] playerList, Action<string> write, Func<string> read)
         {
             _board = board;
+            _boardType = boardType;
             _playerList = playerList;
             _write = write;
             _read = read;
@@ -21,7 +24,14 @@ namespace TicTacToe_App
 
         public GameStatus RunGame()
         {
-            _write("Welcome to Tic Tac Toe!\nHere's the current board:\n");
+            if(_boardType == BoardType.TwoD)
+            {
+                _write("Welcome to 2D Tic Tac Toe!\nHere's the current board:\n");
+            } 
+            else
+            {
+                _write("Welcome to 3D Tic Tac Toe!\nHere's the current board:\n");
+            }
 
             _write(_board.PrintBoard());
 
@@ -31,19 +41,19 @@ namespace TicTacToe_App
                 {
                     var currentPlayer = _playerList[playerIndex];
 
-                    var validInput = CheckCurrentPlayerInput(currentPlayer, playerIndex);
+                    var validInput = CheckCurrentPlayerInput(_boardType, currentPlayer, playerIndex);
 
                     if (validInput == "q")
                     {
-                        _write($"{currentPlayer} quit!");
+                        _write($"Player {playerIndex + 1} quit!");
                         return GameStatus.PlayerQuit;
                     } 
 
-                    _board.UpdateBoard(_board, currentPlayer, validInput);
+                    _board.UpdateBoard(currentPlayer, validInput);
 
                     PrintUpdateBoard();
 
-                    var gameResult = GameResult.CheckWinner(_board, currentPlayer);
+                    var gameResult = _board.CheckWinner(currentPlayer);
 
                     if (gameResult == GameStatus.Win)
                     {
@@ -60,14 +70,21 @@ namespace TicTacToe_App
             }
         }
 
-        private void PrintInstruction(string currentPlayer, int playerIndex)
+        private void PrintInstruction(BoardType boardType, string currentPlayer, int playerIndex)
         {
-            _write($"Player {playerIndex + 1} enter a coord x,y to place your {currentPlayer} or enter 'q' to give up:");
+            if(_boardType == BoardType.TwoD)
+                {
+                    _write($"Player {playerIndex + 1} enter a coord x,y to place your {currentPlayer} or enter 'q' to give up:");
+                } 
+                else
+                {
+                    _write($"Player {playerIndex + 1} enter a coord x,y,z to place your {currentPlayer} or enter 'q' to give up:");
+                }
         }
 
-        private string RequestInput(string currentPlayer, int playerIndex)
+        private string RequestInput(BoardType boardType, string currentPlayer, int playerIndex)
         {
-            PrintInstruction(currentPlayer, playerIndex);
+            PrintInstruction(boardType, currentPlayer, playerIndex);
             return _read();
         }
 
@@ -77,19 +94,19 @@ namespace TicTacToe_App
             _write(_board.PrintBoard());
         }
 
-        private string CheckCurrentPlayerInput (string currentPlayer, int playerIndex)
+        private string CheckCurrentPlayerInput (BoardType boardType, string currentPlayer, int playerIndex)
         {
             var playerInput = "";
             while (true)
             { 
-                playerInput = RequestInput(currentPlayer, playerIndex);
+                playerInput = RequestInput(boardType, currentPlayer, playerIndex);
 
                 if (playerInput == "q")
                 {
                     return playerInput;
                 }
                 
-                var checkCoord = Rules.CheckForValidCoord(_board, playerInput);
+                var checkCoord = _board.CheckForValidCoord(playerInput);
 
                 if (checkCoord == ValidationMessage.InvalidCoord)
                 {

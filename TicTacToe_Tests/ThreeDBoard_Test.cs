@@ -42,10 +42,28 @@ namespace TicTacToe_Tests
         public void PlaceAToken_ReturnUpdatedBoard()
         {
             var board = new ThreeDBoard();
-            board.UpdateBoard(board, "X", "1,1,1");
+            board.UpdateBoard("X", "1,1,1");
             var actual = board.PrintBoard();
 
             Assert.Equal("X..\n...\n...\n\n...\n...\n...\n\n...\n...\n...\n\n", actual);
+        }
+
+        [Theory]
+        [InlineData("1,1,1", ValidationMessage.ValidCoord)]
+        [InlineData("1,1", ValidationMessage.InvalidCoord)]
+        [InlineData("-1,1,1", ValidationMessage.InvalidCoord)]
+        [InlineData("4,1,1", ValidationMessage.InvalidCoord)]
+        [InlineData("4,1,1", ValidationMessage.InvalidCoord)]
+        [InlineData("2,2,2", ValidationMessage.OccupiedCell)]
+        [InlineData("a,b,c", ValidationMessage.InvalidCoord)]
+        public void GivenA3DCoord_ReturnCorrectResult(string input, ValidationMessage expected)
+        {
+            var board = new ThreeDBoard();
+
+            board.UpdateBoard("X", "2,2,2");
+            var actual = board.CheckForValidCoord(input);
+
+            Assert.Equal(expected, actual);
         }
         
     }
