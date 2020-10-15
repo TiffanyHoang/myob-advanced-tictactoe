@@ -4,7 +4,8 @@ namespace TicTacToe_App
 {
     public interface IBoard
     {
-        public int BoardSize{ get; set; }
+        public BoardType Type {get;}
+        public int Size{ get; set; }
 
         public string PrintBoard();
 

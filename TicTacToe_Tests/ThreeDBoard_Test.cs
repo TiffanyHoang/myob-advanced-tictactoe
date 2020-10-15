@@ -8,9 +8,9 @@ namespace TicTacToe_Tests
     {
         [Theory]
         [InlineData(3, 3*3*3)]
-        public void WhenCreateABoard_ReturnEmptyCoordsMatchWithBoardSize(int boardSize, int expectedCells)
+        public void WhenCreateABoard_ReturnEmptyCoordsMatchWithBoardSize(int size, int expectedCells)
         {
-            var board = new ThreeDBoard(boardSize);
+            var board = new ThreeDBoard(size);
 
             var cellCount = 0;
 
@@ -53,7 +53,6 @@ namespace TicTacToe_Tests
         [InlineData("1,1", ValidationMessage.InvalidCoord)]
         [InlineData("-1,1,1", ValidationMessage.InvalidCoord)]
         [InlineData("4,1,1", ValidationMessage.InvalidCoord)]
-        [InlineData("4,1,1", ValidationMessage.InvalidCoord)]
         [InlineData("2,2,2", ValidationMessage.OccupiedCell)]
         [InlineData("a,b,c", ValidationMessage.InvalidCoord)]
         public void GivenA3DCoord_ReturnCorrectResult(string input, ValidationMessage expected)
@@ -66,5 +65,18 @@ namespace TicTacToe_Tests
             Assert.Equal(expected, actual);
         }
         
+        [Fact]
+        public void GivenSameThreeTokenOnTheSameLineInDepth_ReturnWin()
+        {
+            var board = new ThreeDBoard();
+
+            board.UpdateBoard("X", "1,1,1");
+            board.UpdateBoard("X", "1,1,2");
+            board.UpdateBoard("X", "1,1,3");
+
+            var actual = board.CheckWinner("X");
+            var expected = GameStatus.Win;
+            Assert.Equal(expected, actual);
+        }
     }
 }

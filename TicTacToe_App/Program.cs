@@ -21,7 +21,7 @@ namespace TicTacToe_App
 
                 var playerList = PlayersChooseToken(numberOfPlayers, Console.WriteLine, Console.ReadLine);
 
-                var newGame = new TicTacToe(boardType, board, playerList, Console.Write, Console.ReadLine);
+                var newGame = new TicTacToe(board, playerList, Console.Write, Console.ReadLine);
                 
                 newGame.RunGame();
             } 
@@ -34,7 +34,7 @@ namespace TicTacToe_App
                     "O"
                 };
 
-                var newGame = new TicTacToe(boardType, threeDBoard, playerList, Console.Write, Console.ReadLine);
+                var newGame = new TicTacToe(threeDBoard, playerList, Console.Write, Console.ReadLine);
                 newGame.RunGame();
 
             }

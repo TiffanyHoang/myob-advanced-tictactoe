@@ -45,13 +45,14 @@ namespace TicTacToe_Tests
             var testRead = new TestRead();
             var board = new Board();
             var playerList = new string[]{"T", "D"};
+            var boardType = BoardType.TwoD;
 
             var newGame = new TicTacToe(board, playerList, testWrite.Write, testRead.Read);
 
             testRead.SetToBeRead("q");
             newGame.RunGame();
 
-            Assert.Equal("Welcome to Tic Tac Toe!\nHere's the current board:\n", testWrite.GetText());
+            Assert.Equal(GameInstructions.WelcomeMessage(boardType), testWrite.GetText());
 
             Assert.Equal("...\n...\n...\n", testWrite.GetText());
 
@@ -91,7 +92,7 @@ namespace TicTacToe_Tests
 
             newGame.RunGame();
 
-            Assert.True(testWrite.HasText("Player 2 win"));
+            Assert.True(testWrite.HasText(GameInstructions.PlayerWinMessage(Array.IndexOf(playerList,"D"))));
         }
 
         [Fact]
@@ -108,7 +109,7 @@ namespace TicTacToe_Tests
             testRead.SetToBeRead("q");
 
             newGame.RunGame();
-            Assert.True(testWrite.HasText("not a valid coord!"));
+            Assert.True(testWrite.HasText(GameInstructions.InvalidCoordMessage()));
         }
 
         [Fact]
@@ -126,7 +127,7 @@ namespace TicTacToe_Tests
             testRead.SetToBeRead("q");
 
             newGame.RunGame();
-            Assert.True(testWrite.HasText("a piece is already at this place"));
+            Assert.True(testWrite.HasText(GameInstructions.OccupiedCellMessage()));
         }
 
         [Fact]

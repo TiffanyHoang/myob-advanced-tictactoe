@@ -6,24 +6,28 @@ namespace TicTacToe_App
 {
     public class ThreeDBoard : IBoard
     {
+        public BoardType Type 
+        { 
+            get { return BoardType.ThreeD; }
+        } 
         public string[][][] ThreeDGrid{ get; set; }
-        public int BoardSize{ get; set; }
-        public ThreeDBoard(int boardSize = 3)
+        public int Size{ get; set; }
+        public ThreeDBoard(int size = 3)
         {
-            BoardSize = boardSize;
-            ThreeDGrid = CreateGrid(BoardSize);
+            Size = size;
+            ThreeDGrid = CreateGrid(Size);
         }
 
-        private string[][][] CreateGrid (int boardSize)
-        {		
-		    string[][][] threeDGrid = new string[boardSize][][];
+        private string[][][] CreateGrid (int size)
+        {	
+		    string[][][] threeDGrid = new string[size][][];
 		
-			for(int x=0 ; x<boardSize; x++){
-				var layerArray = new string[boardSize][];
+			for(int x=0 ; x<size; x++){
+				var layerArray = new string[size][];
 				
-				for(int y=0 ; y < boardSize ; y++){
-					var depthArray = new string[boardSize];
-					for(int z=0 ; z< boardSize; z++){
+				for(int y=0 ; y < size ; y++){
+					var depthArray = new string[size];
+					for(int z=0 ; z< size; z++){
 						depthArray[z] = " ";
 					}
 					layerArray[y] = depthArray;
@@ -84,7 +88,7 @@ namespace TicTacToe_App
                 var z = coordArray[2] - 1;
                 var coordIsNegativeNumber = x < 0 || y < 0 || z < 0;
 
-                var coordIsOutsideOfBoard = x >= BoardSize || y >= BoardSize || z >= BoardSize;
+                var coordIsOutsideOfBoard = x >= Size || y >= Size || z >= Size;
 
                 if (coordIsNegativeNumber || coordIsOutsideOfBoard)
                 {
@@ -106,7 +110,77 @@ namespace TicTacToe_App
             }
         }
         public GameStatus CheckWinner(string playerToken){
-            return GameStatus.Continue;
+
+            var winningCombinations =  GetWinningCombinations();
+
+            var playerWin =  GetPlayerWinTokenArray(playerToken);
+
+            var isPlayerWin = winningCombinations.Any(winningCombination => winningCombination.SequenceEqual(playerWin));
+            
+            var occupiedCells = GetOccupiedCells();
+          
+            var totalCellsOfBoard = Size * Size;
+
+            if (isPlayerWin)
+            {
+                return GameStatus.Win;
+            } else if(occupiedCells == totalCellsOfBoard)
+            {
+                return GameStatus.Draw;
+            }
+
+            return GameStatus.Continue;        
+        }
+
+        private int GetOccupiedCells()
+        {
+            var occupiedCells = 0; 
+
+            foreach (var row in ThreeDGrid)
+            {
+                foreach (var col in row)
+                {
+                    foreach(var depth in col)
+                    {
+                        if (depth != " ")
+                        {
+                            occupiedCells += 1;
+                        }
+                    }
+                }
+            }
+            return occupiedCells;
+        }
+    
+        private List<string[]> GetWinningCombinations()
+        {
+            var winningCombinations = new List<string[]>();
+
+            for (int rowIndex = 0; rowIndex < Size; rowIndex++)
+            {
+                
+                for(int colIndex = 0; colIndex < Size; colIndex++)
+                {
+                    var winningCombinationDepth = new string[Size];
+                    for(int depthIndex = 0; depthIndex < Size; depthIndex++)
+                    {
+                        winningCombinationDepth[depthIndex] = ThreeDGrid[rowIndex][colIndex][depthIndex];
+                    }
+                    winningCombinations.Add(winningCombinationDepth);
+                }
+            }
+            return winningCombinations;
+        }
+
+        private string[] GetPlayerWinTokenArray(string playerToken)
+        {
+            var playerWin = new string[Size];
+            for( int i = 0; i< Size; i++)
+            {
+                playerWin[i] = playerToken;
+            }       
+
+            return playerWin;
         }
     }
 }

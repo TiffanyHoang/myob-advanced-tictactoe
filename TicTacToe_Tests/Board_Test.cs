@@ -11,9 +11,9 @@ namespace TicTacToe_Tests
         [InlineData(4, 4*4)]
         [InlineData(5, 5*5)]
         [InlineData(6, 6*6)]
-        public void WhenCreateABoard_ReturnEmptyCoordsMatchWithBoardSize(int boardSize, int totalCells)
+        public void WhenCreateABoard_ReturnEmptyCoordsMatchWithBoardSize(int size, int totalCells)
         {
-            var board = new Board(boardSize);
+            var board = new Board(size);
 
             var cellCount = 0;
 

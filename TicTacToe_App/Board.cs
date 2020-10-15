@@ -6,21 +6,25 @@ namespace TicTacToe_App
 {
     public class Board : IBoard
     {
+        public BoardType Type 
+        { 
+            get {return BoardType.TwoD;}
+        } 
         public string[][] Grid{ get; set; }
-        public int BoardSize{ get; set; }
-        public Board(int boardSize = 3)
+        public int Size{ get; set; }
+        public Board(int size = 3)
         {
-            BoardSize = boardSize;
-            Grid = CreateGrid(BoardSize);
+            Size = size;
+            Grid = CreateGrid(Size);
         }
 
-        private string[][] CreateGrid (int boardSize)
+        private string[][] CreateGrid (int size)
         {
-            var grid = new string[boardSize][];
-            for (int row = 0; row < boardSize; row++)
+            var grid = new string[size][];
+            for (int row = 0; row < size; row++)
             {
-                var colArray = new string[boardSize];
-                for (int col = 0; col < boardSize ; col++)
+                var colArray = new string[size];
+                for (int col = 0; col < size ; col++)
                 {
                     colArray[col] = " ";
                 }
@@ -50,7 +54,6 @@ namespace TicTacToe_App
             }
             return boardString;
         }
-
 
         public void UpdateBoard(string token, string coord)
         {
@@ -110,7 +113,7 @@ namespace TicTacToe_App
             
             var occupiedCells = GetOccupiedCells();
           
-            var totalCellsOfBoard = BoardSize * BoardSize;
+            var totalCellsOfBoard = Size * Size;
 
             if (isPlayerWin)
             {
@@ -142,15 +145,15 @@ namespace TicTacToe_App
         private List<string[]> GetWinningCombinations()
         {
             var winningCombinations = new List<string[]>();
-            var winningCombinationDiagonals = new string[BoardSize];
-            var winningCombinationAntiDiagonals = new string[BoardSize];
-            int colIndexAntiDiagonal = BoardSize;
+            var winningCombinationDiagonals = new string[Size];
+            var winningCombinationAntiDiagonals = new string[Size];
+            int colIndexAntiDiagonal = Size;
 
-            for (int rowIndex = 0; rowIndex < BoardSize; rowIndex++)
+            for (int rowIndex = 0; rowIndex < Size; rowIndex++)
             {
-                var winningCombinationCols = new string[BoardSize];
-                var winningCombinationRows = new string[BoardSize];
-                for(int colIndex = 0; colIndex < BoardSize; colIndex++)
+                var winningCombinationCols = new string[Size];
+                var winningCombinationRows = new string[Size];
+                for(int colIndex = 0; colIndex < Size; colIndex++)
                 {
                     winningCombinationCols[colIndex] = Grid[colIndex][rowIndex];
                     winningCombinationRows[colIndex] = Grid[rowIndex][colIndex];
@@ -169,8 +172,8 @@ namespace TicTacToe_App
 
         private string[] GetPlayerWinTokenArray(string playerToken)
         {
-            var playerWin = new string[BoardSize];
-            for( int i = 0; i< BoardSize; i++)
+            var playerWin = new string[Size];
+            for( int i = 0; i< Size; i++)
             {
                 playerWin[i] = playerToken;
             }       
