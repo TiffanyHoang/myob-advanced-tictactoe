@@ -66,10 +66,16 @@ namespace TicTacToe_Tests
         }
         
         [Theory]
-        [InlineData("1,1,1", "1,1,2", "1,1,3")]
-        [InlineData("1,1,1", "1,2,1", "1,3,1")]
-        [InlineData("1,1,1", "2,1,1", "3,1,1")]
-        public void GivenSameThreeTokenOnTheSameLine_ReturnWin(string coord1, string coord2, string coord3)
+        [InlineData("ZEdge", "1,1,1", "1,1,2", "1,1,3")]
+        [InlineData("YEdge", "1,1,1", "1,2,1", "1,3,1")]
+        [InlineData("XEdge", "1,1,1", "2,1,1", "3,1,1")]
+        [InlineData("XDiagonal", "1,1,1", "1,2,2", "1,3,3")]
+        [InlineData("XAntiDiagonal", "1,1,3", "1,2,2", "1,3,1")]
+        [InlineData("YDiagonal", "1,1,1", "2,2,1", "3,3,1")]
+        [InlineData("YAntiDiagonal", "1,3,1", "2,2,1", "3,1,1")]
+        [InlineData("ZDiagonal", "1,3,1", "2,3,2", "3,3,3")]
+        [InlineData("ZAntiDiagonal", "1,1,3", "2,1,2", "3,1,1")]
+        public void GivenSameThreeTokenOnTheSameLine_ReturnWin(string combinationName, string coord1, string coord2, string coord3)
         {
             var board = new ThreeDBoard();
 

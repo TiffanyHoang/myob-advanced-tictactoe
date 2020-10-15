@@ -94,9 +94,9 @@ namespace TicTacToe_App
                 {
                     return ValidationMessage.InvalidCoord;
                 }
-
+                
                 var occupiedCoord = ThreeDGrid[x][y][z] != " ";
-
+                
                 if (occupiedCoord)
                 {
                     return ValidationMessage.OccupiedCell;
@@ -155,27 +155,57 @@ namespace TicTacToe_App
         private List<string[]> GetWinningCombinations()
         {
             var winningCombinations = new List<string[]>();
-
+            var something = Size;
             for (int rowIndex = 0; rowIndex < Size; rowIndex++)
             {
-                
+                var winningCombinationXDiagonals = new string[Size];
+                var winningCombinationXAntiDiagonals = new string[Size];
+
+                var winningCombinationYDiagonals = new string[Size];
+                var winningCombinationYAntiDiagonals = new string[Size];
+
+                var winningCombinationZDiagonals = new string[Size];
+                var winningCombinationZAntiDiagonals = new string[Size];
+
+                int colIndexAntiDiagonal = Size;
+
                 for(int colIndex = 0; colIndex < Size; colIndex++)
                 {
-                    var winningCombinationZ = new string[Size];
-                    var winningCombinationY = new string[Size];
-                    var winningCombinationX = new string[Size];
+                    var winningCombinationZEdges = new string[Size];
+                    var winningCombinationYEdges = new string[Size];
+                    var winningCombinationXEdges = new string[Size];
 
                     for(int depthIndex = 0; depthIndex < Size; depthIndex++)
                     {
-                        winningCombinationZ[depthIndex] = ThreeDGrid[rowIndex][colIndex][depthIndex];
-                        winningCombinationY[depthIndex] = ThreeDGrid[rowIndex][depthIndex][colIndex];
-                        winningCombinationX[depthIndex] = ThreeDGrid[depthIndex][colIndex][rowIndex];
+                        winningCombinationZEdges[depthIndex] = ThreeDGrid[rowIndex][colIndex][depthIndex];
+                        winningCombinationYEdges[depthIndex] = ThreeDGrid[rowIndex][depthIndex][colIndex];
+                        winningCombinationXEdges[depthIndex] = ThreeDGrid[depthIndex][colIndex][rowIndex];
                     }
-                    winningCombinations.Add(winningCombinationZ);
-                    winningCombinations.Add(winningCombinationY);
-                    winningCombinations.Add(winningCombinationX);
+                    
+                    winningCombinationXDiagonals[colIndex] = ThreeDGrid[rowIndex][colIndex][colIndex];
+
+                    winningCombinationYDiagonals[colIndex] = ThreeDGrid[colIndex][colIndex][rowIndex];
+                    
+                    winningCombinationZDiagonals[colIndex] = ThreeDGrid[colIndex][rowIndex][colIndex];
+
+                    colIndexAntiDiagonal -= 1;
+
+                    winningCombinationXAntiDiagonals[colIndex] = ThreeDGrid[rowIndex][colIndex][colIndexAntiDiagonal];
+
+                    winningCombinationYAntiDiagonals[colIndex] = ThreeDGrid[colIndex][colIndexAntiDiagonal][rowIndex];
+                    
+                    winningCombinationZAntiDiagonals[colIndex] = ThreeDGrid[colIndex][rowIndex][colIndexAntiDiagonal];
 
 
+                    winningCombinations.Add(winningCombinationZEdges);
+                    winningCombinations.Add(winningCombinationYEdges);
+                    winningCombinations.Add(winningCombinationXEdges);
+                    winningCombinations.Add(winningCombinationXDiagonals);
+                    winningCombinations.Add(winningCombinationXAntiDiagonals);
+                    winningCombinations.Add(winningCombinationYDiagonals);
+                    winningCombinations.Add(winningCombinationYAntiDiagonals);
+                    winningCombinations.Add(winningCombinationZDiagonals);
+                    winningCombinations.Add(winningCombinationZAntiDiagonals);
                 }
             }
             return winningCombinations;
