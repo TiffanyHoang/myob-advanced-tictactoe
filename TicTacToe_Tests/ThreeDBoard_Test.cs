@@ -65,18 +65,22 @@ namespace TicTacToe_Tests
             Assert.Equal(expected, actual);
         }
         
-        [Fact]
-        public void GivenSameThreeTokenOnTheSameLineInDepth_ReturnWin()
+        [Theory]
+        [InlineData("1,1,1", "1,1,2", "1,1,3")]
+        [InlineData("1,1,1", "1,2,1", "1,3,1")]
+        [InlineData("1,1,1", "2,1,1", "3,1,1")]
+        public void GivenSameThreeTokenOnTheSameLine_ReturnWin(string coord1, string coord2, string coord3)
         {
             var board = new ThreeDBoard();
 
-            board.UpdateBoard("X", "1,1,1");
-            board.UpdateBoard("X", "1,1,2");
-            board.UpdateBoard("X", "1,1,3");
+            board.UpdateBoard("X", coord1);
+            board.UpdateBoard("X", coord2);
+            board.UpdateBoard("X", coord3);
 
             var actual = board.CheckWinner("X");
             var expected = GameStatus.Win;
             Assert.Equal(expected, actual);
         }
+        
     }
 }

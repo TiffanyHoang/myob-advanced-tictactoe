@@ -38,7 +38,6 @@ namespace TicTacToe_App
                 newGame.RunGame();
 
             }
-            
         }
         
         public static int RequestBoardTypeOption(Action<string> write, Func<string> read)

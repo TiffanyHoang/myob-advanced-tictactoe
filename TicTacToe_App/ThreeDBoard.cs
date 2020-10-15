@@ -161,12 +161,21 @@ namespace TicTacToe_App
                 
                 for(int colIndex = 0; colIndex < Size; colIndex++)
                 {
-                    var winningCombinationDepth = new string[Size];
+                    var winningCombinationZ = new string[Size];
+                    var winningCombinationY = new string[Size];
+                    var winningCombinationX = new string[Size];
+
                     for(int depthIndex = 0; depthIndex < Size; depthIndex++)
                     {
-                        winningCombinationDepth[depthIndex] = ThreeDGrid[rowIndex][colIndex][depthIndex];
+                        winningCombinationZ[depthIndex] = ThreeDGrid[rowIndex][colIndex][depthIndex];
+                        winningCombinationY[depthIndex] = ThreeDGrid[rowIndex][depthIndex][colIndex];
+                        winningCombinationX[depthIndex] = ThreeDGrid[depthIndex][colIndex][rowIndex];
                     }
-                    winningCombinations.Add(winningCombinationDepth);
+                    winningCombinations.Add(winningCombinationZ);
+                    winningCombinations.Add(winningCombinationY);
+                    winningCombinations.Add(winningCombinationX);
+
+
                 }
             }
             return winningCombinations;
