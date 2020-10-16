@@ -155,7 +155,13 @@ namespace TicTacToe_App
         private List<string[]> GetWinningCombinations()
         {
             var winningCombinations = new List<string[]>();
-            var something = Size;
+            var firstCornerLine = new string[Size];
+            var secondCornerLine = new string[Size];
+            var thirdCornerLine = new string[Size];
+            var fourthCornerLine = new string[Size];
+
+            var cornerAntiIndex = Size;
+
             for (int rowIndex = 0; rowIndex < Size; rowIndex++)
             {
                 var winningCombinationXDiagonals = new string[Size];
@@ -167,7 +173,7 @@ namespace TicTacToe_App
                 var winningCombinationZDiagonals = new string[Size];
                 var winningCombinationZAntiDiagonals = new string[Size];
 
-                int colIndexAntiDiagonal = Size;
+                var colIndexAntiDiagonal = Size;
 
                 for(int colIndex = 0; colIndex < Size; colIndex++)
                 {
@@ -196,7 +202,6 @@ namespace TicTacToe_App
                     
                     winningCombinationZAntiDiagonals[colIndex] = ThreeDGrid[colIndex][rowIndex][colIndexAntiDiagonal];
 
-
                     winningCombinations.Add(winningCombinationZEdges);
                     winningCombinations.Add(winningCombinationYEdges);
                     winningCombinations.Add(winningCombinationXEdges);
@@ -207,7 +212,24 @@ namespace TicTacToe_App
                     winningCombinations.Add(winningCombinationZDiagonals);
                     winningCombinations.Add(winningCombinationZAntiDiagonals);
                 }
+
+
+                firstCornerLine[rowIndex] = ThreeDGrid[rowIndex][rowIndex][rowIndex];
+                
+                cornerAntiIndex -= 1;
+
+                secondCornerLine[rowIndex] = ThreeDGrid[rowIndex][rowIndex][cornerAntiIndex];
+                
+                thirdCornerLine[rowIndex] = ThreeDGrid[rowIndex][cornerAntiIndex][rowIndex];
+                
+                fourthCornerLine[rowIndex] = ThreeDGrid[rowIndex][cornerAntiIndex][cornerAntiIndex];
+
+                winningCombinations.Add(firstCornerLine);
+                winningCombinations.Add(secondCornerLine);
+                winningCombinations.Add(thirdCornerLine);
+                winningCombinations.Add(fourthCornerLine);
             }
+
             return winningCombinations;
         }
 

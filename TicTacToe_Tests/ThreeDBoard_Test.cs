@@ -75,6 +75,10 @@ namespace TicTacToe_Tests
         [InlineData("YAntiDiagonal", "1,3,1", "2,2,1", "3,1,1")]
         [InlineData("ZDiagonal", "1,3,1", "2,3,2", "3,3,3")]
         [InlineData("ZAntiDiagonal", "1,1,3", "2,1,2", "3,1,1")]
+        [InlineData("1stCornerDiagonal", "1,1,1", "2,2,2", "3,3,3")]
+        [InlineData("2ndCornerDiagonal", "1,1,3", "2,2,2", "3,3,1")]
+        [InlineData("3rdCornerDiagonal", "1,3,1", "2,2,2", "3,1,3")]
+        [InlineData("4thCornerDiagonal", "1,3,3", "2,2,2", "3,1,1")]
         public void GivenSameThreeTokenOnTheSameLine_ReturnWin(string combinationName, string coord1, string coord2, string coord3)
         {
             var board = new ThreeDBoard();
@@ -87,6 +91,5 @@ namespace TicTacToe_Tests
             var expected = GameStatus.Win;
             Assert.Equal(expected, actual);
         }
-        
     }
 }
