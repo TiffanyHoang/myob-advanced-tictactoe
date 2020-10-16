@@ -31,7 +31,7 @@ namespace TicTacToe_App
                 {
                     var currentPlayer = _playerList[playerIndex];
 
-                    var validInput = CheckCurrentPlayerInput(currentPlayer, playerIndex);
+                    var validInput = GetValidPlayerInput(currentPlayer, playerIndex);
 
                     if (validInput == "q")
                     {
@@ -66,7 +66,7 @@ namespace TicTacToe_App
             _write(_board.PrintBoard());
         }
 
-        private string CheckCurrentPlayerInput (string currentPlayer, int playerIndex)
+        private string GetValidPlayerInput (string currentPlayer, int playerIndex)
         {
             var playerInput = "";
             while (true)

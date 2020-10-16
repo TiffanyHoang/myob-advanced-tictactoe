@@ -56,7 +56,7 @@ namespace TicTacToe_Tests
         public void GivenBoardSize_ReturnWinningCombinations()
         {
             var board = new Board(3);
-            Assert.Equal(8,board.GetWinningCombinations().Count);
+            Assert.Equal(8,board.GetResultCombinations().Count);
         }
 
         [Fact]
