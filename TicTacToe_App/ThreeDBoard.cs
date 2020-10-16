@@ -152,7 +152,7 @@ namespace TicTacToe_App
             return occupiedCells;
         }
     
-        private List<string[]> GetWinningCombinations()
+        public List<string[]> GetWinningCombinations()
         {
             var winningCombinations = new List<string[]>();
             var firstCornerLine = new string[Size];
@@ -205,14 +205,15 @@ namespace TicTacToe_App
                     winningCombinations.Add(winningCombinationZEdges);
                     winningCombinations.Add(winningCombinationYEdges);
                     winningCombinations.Add(winningCombinationXEdges);
-                    winningCombinations.Add(winningCombinationXDiagonals);
-                    winningCombinations.Add(winningCombinationXAntiDiagonals);
-                    winningCombinations.Add(winningCombinationYDiagonals);
-                    winningCombinations.Add(winningCombinationYAntiDiagonals);
-                    winningCombinations.Add(winningCombinationZDiagonals);
-                    winningCombinations.Add(winningCombinationZAntiDiagonals);
+                    
                 }
 
+                winningCombinations.Add(winningCombinationXDiagonals);
+                winningCombinations.Add(winningCombinationXAntiDiagonals);
+                winningCombinations.Add(winningCombinationYDiagonals);
+                winningCombinations.Add(winningCombinationYAntiDiagonals);
+                winningCombinations.Add(winningCombinationZDiagonals);
+                winningCombinations.Add(winningCombinationZAntiDiagonals);
 
                 firstCornerLine[rowIndex] = ThreeDGrid[rowIndex][rowIndex][rowIndex];
                 
@@ -223,13 +224,12 @@ namespace TicTacToe_App
                 thirdCornerLine[rowIndex] = ThreeDGrid[rowIndex][cornerAntiIndex][rowIndex];
                 
                 fourthCornerLine[rowIndex] = ThreeDGrid[rowIndex][cornerAntiIndex][cornerAntiIndex];
-
-                winningCombinations.Add(firstCornerLine);
-                winningCombinations.Add(secondCornerLine);
-                winningCombinations.Add(thirdCornerLine);
-                winningCombinations.Add(fourthCornerLine);
             }
-
+            
+            winningCombinations.Add(firstCornerLine);
+            winningCombinations.Add(secondCornerLine);
+            winningCombinations.Add(thirdCornerLine);
+            winningCombinations.Add(fourthCornerLine);
             return winningCombinations;
         }
 

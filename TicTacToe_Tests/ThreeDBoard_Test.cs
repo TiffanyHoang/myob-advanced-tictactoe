@@ -48,6 +48,13 @@ namespace TicTacToe_Tests
             Assert.Equal("X..\n...\n...\n\n...\n...\n...\n\n...\n...\n...\n\n", actual);
         }
 
+        [Fact]
+        public void GivenBoardSize_ReturnWinningCombinations()
+        {
+            var board = new ThreeDBoard();
+            Assert.Equal(49,board.GetWinningCombinations().Count);
+        }
+
         [Theory]
         [InlineData("1,1,1", ValidationMessage.ValidCoord)]
         [InlineData("1,1", ValidationMessage.InvalidCoord)]

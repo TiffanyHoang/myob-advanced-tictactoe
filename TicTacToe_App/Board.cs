@@ -142,7 +142,7 @@ namespace TicTacToe_App
             return occupiedCells;
         }
     
-        private List<string[]> GetWinningCombinations()
+        public List<string[]> GetWinningCombinations()
         {
             var winningCombinations = new List<string[]>();
             var winningCombinationDiagonals = new string[Size];
@@ -164,9 +164,11 @@ namespace TicTacToe_App
                 
                 winningCombinations.Add(winningCombinationCols);
                 winningCombinations.Add(winningCombinationRows);
-                winningCombinations.Add(winningCombinationAntiDiagonals);
-                winningCombinations.Add(winningCombinationDiagonals);
+                
             }
+
+            winningCombinations.Add(winningCombinationAntiDiagonals);
+            winningCombinations.Add(winningCombinationDiagonals);
             return winningCombinations;
         }
 

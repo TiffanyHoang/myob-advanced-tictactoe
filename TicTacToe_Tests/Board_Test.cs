@@ -53,6 +53,13 @@ namespace TicTacToe_Tests
         }
 
         [Fact]
+        public void GivenBoardSize_ReturnWinningCombinations()
+        {
+            var board = new Board(3);
+            Assert.Equal(8,board.GetWinningCombinations().Count);
+        }
+
+        [Fact]
         public void ThreeTokenXOnTheSameRow_ReturnXWin()
         {
             var board = new Board();
