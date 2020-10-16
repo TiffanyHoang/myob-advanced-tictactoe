@@ -91,5 +91,24 @@ namespace TicTacToe_Tests
             var expected = GameStatus.Win;
             Assert.Equal(expected, actual);
         }
+
+        [Theory]
+        [InlineData("1stCornerDiagonal", "1,1,1", "2,2,2", "3,3,3", "4,4,4")]
+        [InlineData("2ndCornerDiagonal", "1,1,4", "2,2,3", "3,3,2", "4,4,1")]
+        [InlineData("3rdCornerDiagonal", "1,4,1", "2,3,2", "3,2,3", "4,1,4")]
+        [InlineData("4thCornerDiagonal", "1,4,4", "2,3,3", "3,2,2", "4,1,1")]
+        public void GivenSameThreeTokenOnTheSameLineBoardSize4_ReturnWin(string combinationName, string coord1, string coord2, string coord3, string coord4)
+        {
+            var board = new ThreeDBoard(4);
+
+            board.UpdateBoard("X", coord1);
+            board.UpdateBoard("X", coord2);
+            board.UpdateBoard("X", coord3);
+            board.UpdateBoard("X", coord4);
+
+            var actual = board.CheckWinner("X");
+            var expected = GameStatus.Win;
+            Assert.Equal(expected, actual);
+        }
     }
 }
