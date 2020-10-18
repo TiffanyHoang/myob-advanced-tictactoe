@@ -23,7 +23,7 @@ namespace TicTacToe_Tests
             var boardSizeOption = Program.RequestBoardSizeOption(testWrite.Write, testRead.Read);
             var actual = Program.SetBoardSize(boardSizeOption);
 
-            Assert.True(testWrite.HasText("not a valid option"));
+            Assert.True(testWrite.HasText(GameInstructions.InvalidInputMessage()));
             Assert.Equal(4, actual);
         }
         
@@ -43,7 +43,7 @@ namespace TicTacToe_Tests
             
             Program.RequestNumberOfPlayers(maxNumberOfPlayers, testWrite.Write, testRead.Read);
 
-            Assert.True(testWrite.HasText("not a valid number of players"));
+            Assert.True(testWrite.HasText(GameInstructions.InvalidInputMessage()));
         }
         
         [Fact]
@@ -99,7 +99,7 @@ namespace TicTacToe_Tests
         }
 
         [Fact]
-        public void GivenABoardTypeOption_ReturnTheCorrectBoardType()
+        public void GivenAnInvalidBoardTypeOption_ReturnTheInvalidInputMessage()
         {
             var testRead = new TestRead();
             var testWrite = new TestWrite();
@@ -110,11 +110,9 @@ namespace TicTacToe_Tests
             testRead.SetToBeRead(invalidBoardTypeOptionInput);
             testRead.SetToBeRead(validBoardTypeOptionInput);
 
-
             var boardTypeOption = Program.RequestBoardTypeOption(testWrite.Write, testRead.Read);
-            var actual = Program.SetBoardType(boardTypeOption);
-
-            Assert.Equal(BoardType.ThreeD, actual);
+            
+            Assert.True(testWrite.HasText(GameInstructions.InvalidInputMessage()));
         }
     }
 }

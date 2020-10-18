@@ -4,6 +4,45 @@ namespace TicTacToe_App
 {
     public static class GameInstructions
     {
+        public static string InvalidInputMessage()
+        {
+            return "Sorry, it's not a valid option.";
+
+        }
+
+        public static string BoardTypeOption()
+        {
+            return "Please choose the board type with the option below: \n"
+                + "1 for 2D Board \n"
+                + "2 for 3D Board";
+        }
+
+        public static string BoardSizeOption()
+        {
+            return "Please choose the board size with the option below: \n"
+                + "1 for 3x3 board \n"
+                + "2 for 4x4 board \n"
+                + "3 for 5x5 board";
+        }
+
+        public static string NumberOfPlayers()
+        {
+            return "Please enter number of players to play with the rule below: \n"
+                + "Minimum is 2 players \n"
+                + "Maximum is 4 players \n"
+                + "With 3x3 board, only 2 players can play";
+        }
+
+        public static string PlayerChooseToken(int playerIndex)
+        {
+            return $"Player {playerIndex + 1} choose a token:";
+        }
+
+        public static string TakenTokenMessage()
+        {
+            return "Sorry, the token is already taken. Please choose another one!";
+        }
+
         public static string WelcomeMessage(BoardType type)
         {
             if(type == BoardType.TwoD)
