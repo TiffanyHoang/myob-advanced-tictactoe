@@ -11,23 +11,24 @@ namespace TicTacToe_App
             get {return BoardType.TwoD;}
         } 
 
-        public string[][] Grid{ get; set; }
-
         public string[] Cells 
         {
             get { return GetCells();}
         }
 
-        public int Size{ get; set; }
+        public int Size { get; set; }
 
         public List<string[]> ResultCombinations 
         {
             get { return GetResultCombinations();}
         }
+
+        private string[][] Grid{ get; set; }
+
         public Board(int size = 3)
         {
             Size = size;
-            Grid = CreateGrid(Size);
+            Grid = CreateGrid();
         }
 
         public string PrintBoard()
@@ -93,11 +94,11 @@ namespace TicTacToe_App
                 return ValidationMessage.InvalidCoord;
             }
         }
-        private string[][] CreateGrid (int size)
+        private string[][] CreateGrid ()
         {
-            var grid = (new string[size][])
+            var grid = (new string[Size][])
                     .Select(_ => {
-                        return (new string[size]).Select(_ => " ").ToArray();
+                        return (new string[Size]).Select(_ => " ").ToArray();
                     }).ToArray();
             
             return grid;
@@ -140,6 +141,5 @@ namespace TicTacToe_App
 
             return resultCombinations;
         }
-
     }
 }

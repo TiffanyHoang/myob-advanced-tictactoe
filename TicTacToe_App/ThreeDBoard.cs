@@ -11,8 +11,6 @@ namespace TicTacToe_App
             get { return BoardType.ThreeD; }
         } 
 
-        public string[][][] ThreeDGrid{ get; set; }
-
         public string[] Cells 
         {
             get { return GetCells();}
@@ -25,10 +23,12 @@ namespace TicTacToe_App
             get { return GetResultCombinations();}
         }
 
+        private string[][][] ThreeDGrid{ get; set; }
+
         public ThreeDBoard(int size = 3)
         {
             Size = size;
-            ThreeDGrid = CreateGrid(Size);
+            ThreeDGrid = CreateGrid();
         }
         
         public string PrintBoard()
@@ -99,16 +99,16 @@ namespace TicTacToe_App
             }
         }
 
-         private string[][][] CreateGrid (int size)
+         private string[][][] CreateGrid ()
         {	
-		    string[][][] threeDGrid = new string[size][][];
+		    string[][][] threeDGrid = new string[Size][][];
 		
-			for(int x=0 ; x<size; x++){
-				var layerArray = new string[size][];
+			for(int x=0 ; x<Size; x++){
+				var layerArray = new string[Size][];
 				
-				for(int y=0 ; y < size ; y++){
-					var depthArray = new string[size];
-					for(int z=0 ; z< size; z++){
+				for(int y=0 ; y < Size ; y++){
+					var depthArray = new string[Size];
+					for(int z=0 ; z< Size; z++){
 						depthArray[z] = " ";
 					}
 					layerArray[y] = depthArray;

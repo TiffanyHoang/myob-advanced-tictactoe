@@ -17,15 +17,12 @@ namespace TicTacToe_Tests
 
             var cellCount = 0;
 
-            foreach (var row in board.Grid)
+            foreach (var cell in board.Cells)
             {
-                foreach (var cell in row)
-                {
-                    Assert.Equal(" ", cell);
-                    cellCount += 1;
-                }
+                Assert.Equal(" ", cell);
+                cellCount += 1;
             }
-
+    
             int expectedCells = totalCells;
 
             int actualCells = cellCount;

@@ -14,17 +14,12 @@ namespace TicTacToe_Tests
 
             var cellCount = 0;
 
-            foreach (var row in board.ThreeDGrid)
+            foreach(var cell in board.Cells)
             {
-                foreach (var col in row)
-                {
-                    foreach(var depth in col)
-                    {
-                        Assert.Equal(" ", depth);
-                        cellCount += 1;
-                    }
-                }
+                Assert.Equal(" ", cell);
+                cellCount += 1;
             }
+             
 
             Assert.Equal(expectedCells, cellCount);
         }
