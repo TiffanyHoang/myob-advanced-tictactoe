@@ -32,26 +32,12 @@ namespace TicTacToe_App
 
         private static int GetTotalOccupiedCells(IBoard board)
         {
-            var totalOccupiedCells = 0; 
-            foreach(var cell in board.Cells)
-            {
-                if (cell != " ")
-                {
-                    totalOccupiedCells += 1;
-                }
-            }
-            return totalOccupiedCells;
+            return Array.FindAll(board.Cells, cell => cell != " ").Count();
         }
 
         private static string[] GetPlayerWinTokenArray(IBoard board, string playerToken)
-        {
-            var playerWin = new string[board.Size];
-            for( int i = 0; i< board.Size; i++)
-            {
-                playerWin[i] = playerToken;
-            }       
-
-            return playerWin;
+        {  
+            return (new string[board.Size]).Select(_ => playerToken).ToArray();
         }
     }
 }

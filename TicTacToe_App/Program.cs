@@ -48,9 +48,9 @@ namespace TicTacToe_App
 
                 boardTypeInput = read();
 
-                var validationInput = Rules.CheckForValidBoardTypeOption(boardTypeInput);
+                var boardTypeOption = Rules.CheckBoardTypeOption(boardTypeInput);
                 
-                if (validationInput == ValidationInput.Invalid)
+                if (boardTypeOption == ValidationInput.Invalid)
                 {
                     write(GameInstructions.InvalidInputMessage());
                 }
@@ -58,6 +58,7 @@ namespace TicTacToe_App
                 {
                     break;
                 }
+
             }
             return int.Parse(boardTypeInput);
         }
@@ -71,9 +72,9 @@ namespace TicTacToe_App
 
                 boardSizeInput = read();
 
-                var validationInput = Rules.CheckForValidBoardSizeOption(boardSizeInput);
+                var boardSizeOption = Rules.CheckBoardSizeOption(boardSizeInput);
                 
-                if (validationInput == ValidationInput.Invalid)
+                if (boardSizeOption == ValidationInput.Invalid)
                 {
                     write(GameInstructions.InvalidInputMessage());
                 }
@@ -87,20 +88,13 @@ namespace TicTacToe_App
 
         public static int SetBoardSize(int boardSizeOption)
         {
-            var boardSize = 0;
-            if (boardSizeOption == 1)
+            return boardSizeOption switch
             {
-                boardSize = 3;
-            }
-            else if (boardSizeOption == 2)
-            {
-                boardSize = 4;
-            }
-            else
-            {
-                boardSize = 5;
-            }
-            return boardSize;
+                1 => 3,
+                2 => 4,
+                3 => 5,
+                _ => 3
+            };
         }
         
         public static int RequestNumberOfPlayers(int maxNumberOfPlayers, Action<string> write, Func<string> read)
@@ -112,9 +106,9 @@ namespace TicTacToe_App
 
                 numberOfPlayersInput = read();
 
-                var validationInput = Rules.CheckForValidNumberOfPlayersInput(maxNumberOfPlayers, numberOfPlayersInput);
+                var numberOfPlayers = Rules.CheckNumberOfPlayersInput(maxNumberOfPlayers, numberOfPlayersInput);
 
-                if (validationInput == ValidationInput.Invalid)
+                if (numberOfPlayers == ValidationInput.Invalid)
                 {
                     write(GameInstructions.InvalidInputMessage());
                 }
@@ -149,9 +143,9 @@ namespace TicTacToe_App
                 write(GameInstructions.PlayerChooseToken(playerIndex));
                 var playerTokenInput = read();
 
-                var validationTokenInput = Rules.CheckForValidTokenInput(playerTokenInput);
+                var tokenInput = Rules.CheckTokenInput(playerTokenInput);
 
-                if (validationTokenInput == ValidationInput.Invalid)
+                if (tokenInput == ValidationInput.Invalid)
                 {
                     write(GameInstructions.InvalidInputMessage());
                 }

@@ -17,7 +17,7 @@ namespace TicTacToe_App
 
         public void UpdateBoard(string token, string coord);
 
-        public ValidationMessage CheckForValidCoord(string input);
+        public ValidationMessage CheckCoord(string input);
 
     }
 }

@@ -38,13 +38,8 @@ namespace TicTacToe_App
             {
                 foreach (var cell in row)
                 {
-                    if (cell == " ")
-                    {
-                        boardString += ".";
-                    } else
-                    {
-                        boardString += cell;
-                    }
+                    var stringToAppend = cell == " " ? "." : cell;
+                    boardString += stringToAppend;
                 }
                 boardString += "\n";
             }
@@ -59,7 +54,7 @@ namespace TicTacToe_App
             Grid[x][y] = token;
         }
 
-        public ValidationMessage CheckForValidCoord(string input)
+        public ValidationMessage CheckCoord(string input)
         {
             try
             {
@@ -100,16 +95,11 @@ namespace TicTacToe_App
         }
         private string[][] CreateGrid (int size)
         {
-            var grid = new string[size][];
-            for (int row = 0; row < size; row++)
-            {
-                var colArray = new string[size];
-                for (int col = 0; col < size ; col++)
-                {
-                    colArray[col] = " ";
-                }
-                grid[row] = colArray;
-            }
+            var grid = (new string[size][])
+                    .Select(_ => {
+                        return (new string[size]).Select(_ => " ").ToArray();
+                    }).ToArray();
+            
             return grid;
         }
         

@@ -75,7 +75,7 @@ namespace TicTacToe_Tests
             var inputCoord = input;
 
             var expected = ValidationMessage.ValidCoord;
-            var actual = board.CheckForValidCoord(inputCoord);
+            var actual = board.CheckCoord(inputCoord);
 
             Assert.Equal(expected,actual);
         }
@@ -94,7 +94,7 @@ namespace TicTacToe_Tests
             var inputCoord = input;
 
             var expected = ValidationMessage.InvalidCoord;
-            var actual = board.CheckForValidCoord(inputCoord);
+            var actual = board.CheckCoord(inputCoord);
 
             Assert.Equal(expected, actual);
         }
@@ -107,7 +107,7 @@ namespace TicTacToe_Tests
             board.UpdateBoard("X", input);
 
             var expected = ValidationMessage.OccupiedCell;
-            var actual = board.CheckForValidCoord(input);
+            var actual = board.CheckCoord(input);
 
             Assert.Equal(expected, actual);
         }

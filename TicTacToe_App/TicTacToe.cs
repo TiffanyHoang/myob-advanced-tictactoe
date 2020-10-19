@@ -80,7 +80,7 @@ namespace TicTacToe_App
                     return playerInput;
                 }
                 
-                var coord = _board.CheckForValidCoord(playerInput);
+                var coord = _board.CheckCoord(playerInput);
 
                 if (coord == ValidationMessage.InvalidCoord)
                 {

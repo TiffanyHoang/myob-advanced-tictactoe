@@ -41,13 +41,8 @@ namespace TicTacToe_App
                 {
                     foreach(var depth in col)
                     {
-                        if (depth == " ")
-                        {
-                            boardString += ".";
-                        } else
-                        {
-                            boardString += depth;
-                        }
+                        var stringToAppend = depth == " " ? "." : depth;
+                        boardString += stringToAppend;
                     }
                     boardString += "\n";
                 }
@@ -65,7 +60,7 @@ namespace TicTacToe_App
             ThreeDGrid[x][y][z]= token;
         }
 
-        public ValidationMessage CheckForValidCoord(string input)
+        public ValidationMessage CheckCoord(string input)
         {
             try
             {
@@ -120,6 +115,7 @@ namespace TicTacToe_App
 				}
 				threeDGrid[x] = layerArray;
 			}
+
             return threeDGrid;
         }
 
@@ -130,7 +126,7 @@ namespace TicTacToe_App
 
             return cells;
         }
-        
+
         private List<string[]> GetResultCombinations()
         {
             var resutlCombinations = new List<string[]>();

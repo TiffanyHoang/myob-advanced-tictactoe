@@ -60,7 +60,7 @@ namespace TicTacToe_Tests
             var board = new ThreeDBoard();
 
             board.UpdateBoard("X", "2,2,2");
-            var actual = board.CheckForValidCoord(input);
+            var actual = board.CheckCoord(input);
 
             Assert.Equal(expected, actual);
         }
@@ -72,7 +72,7 @@ namespace TicTacToe_Tests
             board.UpdateBoard("X", "1,1,1");
 
             var expected = ValidationMessage.OccupiedCell;
-            var actual = board.CheckForValidCoord("1,1,1");
+            var actual = board.CheckCoord("1,1,1");
 
             Assert.Equal(expected, actual);
         }

@@ -5,7 +5,7 @@ namespace TicTacToe_App
 {
     public class Rules
     {
-        public static ValidationInput CheckForValidBoardTypeOption(string input)
+        public static ValidationInput CheckBoardTypeOption(string input)
         {
             try {
                 int boardTypeOption = int.Parse(input);
@@ -17,7 +17,7 @@ namespace TicTacToe_App
             } 
         }
     
-        public static ValidationInput CheckForValidBoardSizeOption (string input)
+        public static ValidationInput CheckBoardSizeOption (string input)
         {
             try {
                 int boardSizeOption = int.Parse(input);
@@ -29,7 +29,7 @@ namespace TicTacToe_App
             }
         }
 
-        public static ValidationInput CheckForValidNumberOfPlayersInput (int maxNumberOfPlayer, string input)
+        public static ValidationInput CheckNumberOfPlayersInput (int maxNumberOfPlayer, string input)
         {
             try {
                 int numberOfPlayers = int.Parse(input);
@@ -41,14 +41,9 @@ namespace TicTacToe_App
             }
         }
     
-        public static ValidationInput CheckForValidTokenInput(string input)
+        public static ValidationInput CheckTokenInput(string input)
         {
-            if (input.Length > 1 || input == ".")
-            {
-                return ValidationInput.Invalid;
-            } else {
-                return ValidationInput.Valid;
-            }
+            return input.Length > 1 || input == "." ? ValidationInput.Invalid : ValidationInput.Valid;
         }
     }
 }
