@@ -48,13 +48,6 @@ namespace TicTacToe_Tests
             Assert.Equal("X..\n...\n...\n\n...\n...\n...\n\n...\n...\n...\n\n", actual);
         }
 
-        [Fact]
-        public void GivenBoardSize_ReturnWinningCombinations()
-        {
-            var board = new ThreeDBoard();
-            Assert.Equal(49,board.GetWinningCombinations().Count);
-        }
-
         [Theory]
         [InlineData("1,1,1", ValidationMessage.ValidCoord)]
         [InlineData("1,1", ValidationMessage.InvalidCoord)]
@@ -71,51 +64,18 @@ namespace TicTacToe_Tests
 
             Assert.Equal(expected, actual);
         }
-        
-        [Theory]
-        [InlineData("ZEdge", "1,1,1", "1,1,2", "1,1,3")]
-        [InlineData("YEdge", "1,1,1", "1,2,1", "1,3,1")]
-        [InlineData("XEdge", "1,1,1", "2,1,1", "3,1,1")]
-        [InlineData("XDiagonal", "1,1,1", "1,2,2", "1,3,3")]
-        [InlineData("XAntiDiagonal", "1,1,3", "1,2,2", "1,3,1")]
-        [InlineData("YDiagonal", "1,1,1", "2,2,1", "3,3,1")]
-        [InlineData("YAntiDiagonal", "1,3,1", "2,2,1", "3,1,1")]
-        [InlineData("ZDiagonal", "1,3,1", "2,3,2", "3,3,3")]
-        [InlineData("ZAntiDiagonal", "1,1,3", "2,1,2", "3,1,1")]
-        [InlineData("1stCornerDiagonal", "1,1,1", "2,2,2", "3,3,3")]
-        [InlineData("2ndCornerDiagonal", "1,1,3", "2,2,2", "3,3,1")]
-        [InlineData("3rdCornerDiagonal", "1,3,1", "2,2,2", "3,1,3")]
-        [InlineData("4thCornerDiagonal", "1,3,3", "2,2,2", "3,1,1")]
-        public void GivenSameThreeTokenOnTheSameLine_ReturnWin(string combinationName, string coord1, string coord2, string coord3)
+
+        [Fact]
+        public void GivenAOccupiedCoord_ReturnOccupiedCellMessage()
         {
             var board = new ThreeDBoard();
+            board.UpdateBoard("X", "1,1,1");
 
-            board.UpdateBoard("X", coord1);
-            board.UpdateBoard("X", coord2);
-            board.UpdateBoard("X", coord3);
+            var expected = ValidationMessage.OccupiedCell;
+            var actual = board.CheckForValidCoord("1,1,1");
 
-            var actual = board.CheckWinner("X");
-            var expected = GameStatus.Win;
             Assert.Equal(expected, actual);
         }
 
-        [Theory]
-        [InlineData("1stCornerDiagonal", "1,1,1", "2,2,2", "3,3,3", "4,4,4")]
-        [InlineData("2ndCornerDiagonal", "1,1,4", "2,2,3", "3,3,2", "4,4,1")]
-        [InlineData("3rdCornerDiagonal", "1,4,1", "2,3,2", "3,2,3", "4,1,4")]
-        [InlineData("4thCornerDiagonal", "1,4,4", "2,3,3", "3,2,2", "4,1,1")]
-        public void GivenSameThreeTokenOnTheSameLineBoardSize4_ReturnWin(string combinationName, string coord1, string coord2, string coord3, string coord4)
-        {
-            var board = new ThreeDBoard(4);
-
-            board.UpdateBoard("X", coord1);
-            board.UpdateBoard("X", coord2);
-            board.UpdateBoard("X", coord3);
-            board.UpdateBoard("X", coord4);
-
-            var actual = board.CheckWinner("X");
-            var expected = GameStatus.Win;
-            Assert.Equal(expected, actual);
-        }
     }
 }

@@ -52,109 +52,12 @@ namespace TicTacToe_Tests
             Assert.Equal("X..\n...\n...\n", actual);
         }
 
-        [Fact]
-        public void GivenBoardSize_ReturnWinningCombinations()
-        {
-            var board = new Board(3);
-            Assert.Equal(8,board.GetResultCombinations().Count);
-        }
-
-        [Fact]
-        public void ThreeTokenXOnTheSameRow_ReturnXWin()
-        {
-            var board = new Board();
-
-            board.UpdateBoard("X", "1,1");
-            board.UpdateBoard("X", "1,2");
-            board.UpdateBoard("X", "1,3");
-
-            var actual = board.CheckWinner("X");
-            var expected = GameStatus.Win;
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void ThreeTokenXOnTheSameCol_ReturnXWin()
-        {
-            var board = new Board();
-
-            board.UpdateBoard("X", "1,1");
-            board.UpdateBoard("X", "2,1");
-            board.UpdateBoard("X", "3,1");
-
-            var actual = board.CheckWinner("X");
-            var expected = GameStatus.Win;
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void ThreeTokenXOnTheDiagonal_ReturnXWin()
-        {
-            var board = new Board();
-
-            board.UpdateBoard("X", "1,1");
-            board.UpdateBoard("X", "2,2");
-            board.UpdateBoard("X", "3,3");
-
-            var actual = board.CheckWinner("X");
-            var expected = GameStatus.Win;
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void ThreeTokenXOnTheAntiDiagonal_ReturnXWin()
-        {
-            var board = new Board();
-
-            board.UpdateBoard("X", "1,3");
-            board.UpdateBoard("X", "2,2");
-            board.UpdateBoard("X", "3,1");
-
-            var actual = board.CheckWinner("X");
-            var expected = GameStatus.Win;
-            Assert.Equal(expected, actual);
-        }
-
-        
-
-        [Fact]
-        public void Fullboard_ReturnDraw()
-        {
-            var board = new Board();
-
-            board.UpdateBoard("O", "1,1");
-            board.UpdateBoard("O", "1,3");
-            board.UpdateBoard("O", "2,2");
-            board.UpdateBoard("O", "3,2");
-            board.UpdateBoard("X", "1,2");
-            board.UpdateBoard("X", "2,1");
-            board.UpdateBoard("X", "2,3");
-            board.UpdateBoard("X", "3,1");
-            board.UpdateBoard("X", "3,3");
-
-            var actual = board.CheckWinner("X");
-            var expected = GameStatus.Draw;
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void NotFullboardWithNoWinner_ReturnContinue()
-        {
-            var board = new Board();
-
-            board.UpdateBoard("O", "1,1");
-            board.UpdateBoard("O", "1,3");
-            board.UpdateBoard("O", "2,2");
-            board.UpdateBoard("O", "3,2");
-            board.UpdateBoard("X", "1,2");
-            board.UpdateBoard("X", "2,1");
-            board.UpdateBoard("X", "2,3");
-            board.UpdateBoard("X", "3,1");
-
-            var actual = board.CheckWinner("X");
-            var expected = GameStatus.Continue;
-            Assert.Equal(expected, actual);
-        }
+        // [Fact]
+        // public void GivenBoardSize_ReturnWinningCombinations()
+        // {
+        //     var board = new Board(4);
+        //     Assert.Equal(10,board.GetResultCombinations().Count);
+        // }
 
         [Theory]
         [InlineData("1,1")]

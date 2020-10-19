@@ -43,7 +43,7 @@ namespace TicTacToe_App
 
                     PrintUpdateBoard();
 
-                    var gameResult = _board.CheckWinner(currentPlayer);
+                    var gameResult = GameResult.CheckResult(_board, currentPlayer);
 
                     if (gameResult == GameStatus.Win)
                     {

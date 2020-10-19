@@ -10,31 +10,25 @@ namespace TicTacToe_App
         { 
             get { return BoardType.ThreeD; }
         } 
+
         public string[][][] ThreeDGrid{ get; set; }
+
+        public string[] Cells 
+        {
+            get { return GetCells();}
+        }
+
         public int Size{ get; set; }
+
+        public List<string[]> ResultCombinations 
+        {
+            get { return GetResultCombinations();}
+        }
+
         public ThreeDBoard(int size = 3)
         {
             Size = size;
             ThreeDGrid = CreateGrid(Size);
-        }
-
-        private string[][][] CreateGrid (int size)
-        {	
-		    string[][][] threeDGrid = new string[size][][];
-		
-			for(int x=0 ; x<size; x++){
-				var layerArray = new string[size][];
-				
-				for(int y=0 ; y < size ; y++){
-					var depthArray = new string[size];
-					for(int z=0 ; z< size; z++){
-						depthArray[z] = " ";
-					}
-					layerArray[y] = depthArray;
-				}
-				threeDGrid[x] = layerArray;
-			}
-            return threeDGrid;
         }
         
         public string PrintBoard()
@@ -109,52 +103,37 @@ namespace TicTacToe_App
                 return ValidationMessage.InvalidCoord;
             }
         }
-        public GameStatus CheckWinner(string playerToken){
 
-            var winningCombinations =  GetWinningCombinations();
-
-            var playerWin =  GetPlayerWinTokenArray(playerToken);
-
-            var isPlayerWin = winningCombinations.Any(winningCombination => winningCombination.SequenceEqual(playerWin));
-            
-            var occupiedCells = GetOccupiedCells();
-          
-            var totalCellsOfBoard = Size * Size;
-
-            if (isPlayerWin)
-            {
-                return GameStatus.Win;
-            } else if(occupiedCells == totalCellsOfBoard)
-            {
-                return GameStatus.Draw;
-            }
-
-            return GameStatus.Continue;        
+         private string[][][] CreateGrid (int size)
+        {	
+		    string[][][] threeDGrid = new string[size][][];
+		
+			for(int x=0 ; x<size; x++){
+				var layerArray = new string[size][];
+				
+				for(int y=0 ; y < size ; y++){
+					var depthArray = new string[size];
+					for(int z=0 ; z< size; z++){
+						depthArray[z] = " ";
+					}
+					layerArray[y] = depthArray;
+				}
+				threeDGrid[x] = layerArray;
+			}
+            return threeDGrid;
         }
 
-        private int GetOccupiedCells()
+        private string[] GetCells()
         {
-            var occupiedCells = 0; 
+            var cols = ThreeDGrid.SelectMany(row => row).ToArray(); 
+            var cells = cols.SelectMany(cell => cell).ToArray();
 
-            foreach (var row in ThreeDGrid)
-            {
-                foreach (var col in row)
-                {
-                    foreach(var depth in col)
-                    {
-                        if (depth != " ")
-                        {
-                            occupiedCells += 1;
-                        }
-                    }
-                }
-            }
-            return occupiedCells;
+            return cells;
         }
-    
-        public List<string[]> GetWinningCombinations()
+        
+        private List<string[]> GetResultCombinations()
         {
-            var winningCombinations = new List<string[]>();
+            var resutlCombinations = new List<string[]>();
             var firstCornerLine = new string[Size];
             var secondCornerLine = new string[Size];
             var thirdCornerLine = new string[Size];
@@ -164,56 +143,55 @@ namespace TicTacToe_App
 
             for (int rowIndex = 0; rowIndex < Size; rowIndex++)
             {
-                var winningCombinationXDiagonals = new string[Size];
-                var winningCombinationXAntiDiagonals = new string[Size];
+                var XDiagonals = new string[Size];
+                var XAntiDiagonals = new string[Size];
 
-                var winningCombinationYDiagonals = new string[Size];
-                var winningCombinationYAntiDiagonals = new string[Size];
-
-                var winningCombinationZDiagonals = new string[Size];
-                var winningCombinationZAntiDiagonals = new string[Size];
+                var YDiagonals = new string[Size];
+                var YAntiDiagonals = new string[Size];
+                var ZDiagonals = new string[Size];
+                var ZAntiDiagonals = new string[Size];
 
                 var colIndexAntiDiagonal = Size;
 
                 for(int colIndex = 0; colIndex < Size; colIndex++)
                 {
-                    var winningCombinationZEdges = new string[Size];
-                    var winningCombinationYEdges = new string[Size];
-                    var winningCombinationXEdges = new string[Size];
+                    var ZEdges = new string[Size];
+                    var YEdges = new string[Size];
+                    var XEdges = new string[Size];
 
                     for(int depthIndex = 0; depthIndex < Size; depthIndex++)
                     {
-                        winningCombinationZEdges[depthIndex] = ThreeDGrid[rowIndex][colIndex][depthIndex];
-                        winningCombinationYEdges[depthIndex] = ThreeDGrid[rowIndex][depthIndex][colIndex];
-                        winningCombinationXEdges[depthIndex] = ThreeDGrid[depthIndex][colIndex][rowIndex];
+                        ZEdges[depthIndex] = ThreeDGrid[rowIndex][colIndex][depthIndex];
+                        YEdges[depthIndex] = ThreeDGrid[rowIndex][depthIndex][colIndex];
+                        XEdges[depthIndex] = ThreeDGrid[depthIndex][colIndex][rowIndex];
                     }
                     
-                    winningCombinationXDiagonals[colIndex] = ThreeDGrid[rowIndex][colIndex][colIndex];
+                    XDiagonals[colIndex] = ThreeDGrid[rowIndex][colIndex][colIndex];
 
-                    winningCombinationYDiagonals[colIndex] = ThreeDGrid[colIndex][colIndex][rowIndex];
+                    YDiagonals[colIndex] = ThreeDGrid[colIndex][colIndex][rowIndex];
+                
+                    ZDiagonals[colIndex] = ThreeDGrid[colIndex][rowIndex][colIndex];
                     
-                    winningCombinationZDiagonals[colIndex] = ThreeDGrid[colIndex][rowIndex][colIndex];
-
                     colIndexAntiDiagonal -= 1;
 
-                    winningCombinationXAntiDiagonals[colIndex] = ThreeDGrid[rowIndex][colIndex][colIndexAntiDiagonal];
-
-                    winningCombinationYAntiDiagonals[colIndex] = ThreeDGrid[colIndex][colIndexAntiDiagonal][rowIndex];
+                    XAntiDiagonals[colIndex] = ThreeDGrid[rowIndex][colIndex][colIndexAntiDiagonal];
                     
-                    winningCombinationZAntiDiagonals[colIndex] = ThreeDGrid[colIndex][rowIndex][colIndexAntiDiagonal];
+                    YAntiDiagonals[colIndex] = ThreeDGrid[colIndex][colIndexAntiDiagonal][rowIndex];
+                
+                    ZAntiDiagonals[colIndex] = ThreeDGrid[colIndex][rowIndex][colIndexAntiDiagonal];
 
-                    winningCombinations.Add(winningCombinationZEdges);
-                    winningCombinations.Add(winningCombinationYEdges);
-                    winningCombinations.Add(winningCombinationXEdges);
+                    resutlCombinations.Add(ZEdges);
+                    resutlCombinations.Add(YEdges);
+                    resutlCombinations.Add(XEdges);
                     
                 }
 
-                winningCombinations.Add(winningCombinationXDiagonals);
-                winningCombinations.Add(winningCombinationXAntiDiagonals);
-                winningCombinations.Add(winningCombinationYDiagonals);
-                winningCombinations.Add(winningCombinationYAntiDiagonals);
-                winningCombinations.Add(winningCombinationZDiagonals);
-                winningCombinations.Add(winningCombinationZAntiDiagonals);
+                resutlCombinations.Add(XDiagonals);
+                resutlCombinations.Add(XAntiDiagonals);
+                resutlCombinations.Add(YDiagonals);
+                resutlCombinations.Add(YAntiDiagonals);
+                resutlCombinations.Add(ZDiagonals);
+                resutlCombinations.Add(ZAntiDiagonals);
 
                 firstCornerLine[rowIndex] = ThreeDGrid[rowIndex][rowIndex][rowIndex];
                 
@@ -226,22 +204,12 @@ namespace TicTacToe_App
                 fourthCornerLine[rowIndex] = ThreeDGrid[rowIndex][cornerAntiIndex][cornerAntiIndex];
             }
             
-            winningCombinations.Add(firstCornerLine);
-            winningCombinations.Add(secondCornerLine);
-            winningCombinations.Add(thirdCornerLine);
-            winningCombinations.Add(fourthCornerLine);
-            return winningCombinations;
-        }
+            resutlCombinations.Add(firstCornerLine);
+            resutlCombinations.Add(secondCornerLine);
+            resutlCombinations.Add(thirdCornerLine);
+            resutlCombinations.Add(fourthCornerLine);
 
-        private string[] GetPlayerWinTokenArray(string playerToken)
-        {
-            var playerWin = new string[Size];
-            for( int i = 0; i< Size; i++)
-            {
-                playerWin[i] = playerToken;
-            }       
-
-            return playerWin;
+            return resutlCombinations;
         }
     }
 }

@@ -10,30 +10,26 @@ namespace TicTacToe_App
         { 
             get {return BoardType.TwoD;}
         } 
+
         public string[][] Grid{ get; set; }
+
+        public string[] Cells 
+        {
+            get { return GetCells();}
+        }
+
         public int Size{ get; set; }
+
+        public List<string[]> ResultCombinations 
+        {
+            get { return GetResultCombinations();}
+        }
         public Board(int size = 3)
         {
             Size = size;
             Grid = CreateGrid(Size);
         }
 
-        private string[][] CreateGrid (int size)
-        {
-            var grid = new string[size][];
-            for (int row = 0; row < size; row++)
-            {
-                var colArray = new string[size];
-                for (int col = 0; col < size ; col++)
-                {
-                    colArray[col] = " ";
-                }
-                grid[row] = colArray;
-            }
-            return grid;
-
-        }
-        
         public string PrintBoard()
         {
             var boardString = "";
@@ -102,35 +98,26 @@ namespace TicTacToe_App
                 return ValidationMessage.InvalidCoord;
             }
         }
-
-        public GameStatus CheckWinner(string playerToken)
+        private string[][] CreateGrid (int size)
         {
-            var resultCombinations =  GetResultCombinations();
-
-            var playerTokenArray =  GetPlayerTokenArray(playerToken);
-
-            var isPlayerWin = resultCombinations.Any(combination => combination.SequenceEqual(playerTokenArray));
-            
-            var totalOccupiedCells = GetTotalOccupiedCells();
-          
-            var totalCellsOfBoard = Size * Size;
-
-            if (isPlayerWin)
+            var grid = new string[size][];
+            for (int row = 0; row < size; row++)
             {
-                return GameStatus.Win;
-            } else if(totalOccupiedCells == totalCellsOfBoard)
-            {
-                return GameStatus.Draw;
+                var colArray = new string[size];
+                for (int col = 0; col < size ; col++)
+                {
+                    colArray[col] = " ";
+                }
+                grid[row] = colArray;
             }
-
-            return GameStatus.Continue;
+            return grid;
         }
-
-        private int GetTotalOccupiedCells()
+        
+        private string[] GetCells()
         {
-            var totalOccupiedCells = Array.FindAll(Grid.SelectMany(row => row).ToArray(), cell => cell != " ").Count();; 
-                        
-            return totalOccupiedCells;
+            var cells = Grid.SelectMany(row => row).ToArray();             
+
+            return cells;
         }
     
         public List<string[]> GetResultCombinations()
@@ -160,18 +147,8 @@ namespace TicTacToe_App
 
             resultCombinations.Add(antiDiagonals);
             resultCombinations.Add(diagonals);
+
             return resultCombinations;
-        }
-
-        private string[] GetPlayerTokenArray(string playerToken)
-        {
-            var playerWin = new string[Size];
-            for( int i = 0; i< Size; i++)
-            {
-                playerWin[i] = playerToken;
-            }       
-
-            return playerWin;
         }
 
     }
