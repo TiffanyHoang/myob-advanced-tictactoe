@@ -94,23 +94,7 @@ namespace TicTacToe_App
                 return ValidationMessage.InvalidCoord;
             }
         }
-        private string[][] CreateGrid ()
-        {
-            var grid = (new string[Size][])
-                    .Select(_ => {
-                        return (new string[Size]).Select(_ => " ").ToArray();
-                    }).ToArray();
-            
-            return grid;
-        }
-        
-        private string[] GetCells()
-        {
-            var cells = Grid.SelectMany(row => row).ToArray();             
 
-            return cells;
-        }
-    
         public List<string[]> GetResultCombinations()
         {
             var resultCombinations = new List<string[]>();
@@ -141,5 +125,24 @@ namespace TicTacToe_App
 
             return resultCombinations;
         }
+        
+        private string[][] CreateGrid ()
+        {
+            var grid = (new string[Size][])
+                    .Select(_ => {
+                        return (new string[Size]).Select(_ => " ").ToArray();
+                    }).ToArray();
+            
+            return grid;
+        }
+        
+        private string[] GetCells()
+        {
+            var cells = Grid.SelectMany(row => row).ToArray();             
+
+            return cells;
+        }
+    
+
     }
 }

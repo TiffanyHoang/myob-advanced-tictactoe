@@ -6,40 +6,91 @@ namespace TicTacToe_App
     {
         static void Main(string[] args)
         {
-            var boardTypeOption = RequestBoardTypeOption(Console.WriteLine, Console.ReadLine);
+            var boardTypeOption = GetBoardTypeOption(Console.WriteLine, Console.ReadLine);
 
+            var boardSizeOption = GetBoardSizeOption(boardTypeOption, Console.WriteLine, Console.ReadLine);
+
+            var boardSize = SetBoardSize(boardSizeOption);
+
+            var board = SetBoard(boardTypeOption, boardSize);
+
+            var maxNumberOfPlayers = GetMaxNumberOfPlayerForABoard(boardSize);
+            var numberOfPlayers = GetNumberOfPlayers(boardTypeOption, maxNumberOfPlayers, Console.WriteLine, Console.ReadLine);
+            var playerList = GetPlayerList(numberOfPlayers, Console.WriteLine, Console.ReadLine);
+
+            var newGame = new TicTacToe(board, playerList, Console.Write, Console.ReadLine);
+            var gameResult = newGame.RunGame();
+
+            while (gameResult == GameStatus.Draw || gameResult == GameStatus.Win)
+            {
+                var playerDecisionOnNextRound = GetPlayerDecisionOnNextRound(Console.WriteLine);
+                if (playerDecisionOnNextRound == "Y")
+                {
+                    var playerDecisionOnSettings = GetPlayerDecisionOnSettings(Console.WriteLine);
+                    if (playerDecisionOnSettings == "Y")
+                    {
+                        boardTypeOption = GetBoardTypeOption(Console.WriteLine, Console.ReadLine);
+
+                        boardSizeOption = GetBoardSizeOption(boardTypeOption, Console.WriteLine, Console.ReadLine);
+
+                        boardSize = SetBoardSize(boardSizeOption);
+
+                        board = SetBoard(boardTypeOption, boardSize);
+
+                        maxNumberOfPlayers = GetMaxNumberOfPlayerForABoard(boardSize);
+                        numberOfPlayers = GetNumberOfPlayers(boardTypeOption, maxNumberOfPlayers, Console.WriteLine, Console.ReadLine);
+                        playerList = GetPlayerList(numberOfPlayers, Console.WriteLine, Console.ReadLine);
+
+                        newGame = new TicTacToe(board, playerList, Console.Write, Console.ReadLine);
+                        gameResult = newGame.RunGame();
+                    }
+                    else 
+                    {
+                        board = SetBoard(boardTypeOption, boardSize);
+                        newGame = new TicTacToe(board, playerList, Console.Write, Console.ReadLine);
+                        gameResult = newGame.RunGame();
+                    }
+                } 
+                else {
+                    PrintGoodbyeMessage(Console.WriteLine);
+                    break;
+                }
+            }
+            
+        }
+
+        public static IBoard SetBoard (int boardTypeOption, int boardSize)
+        {            
             if(boardTypeOption == 1)
             {
-                var boardSizeOption = RequestBoardSizeOption(Console.WriteLine, Console.ReadLine);
-                var boardSize = SetBoardSize(boardSizeOption);
-                var board = new Board(boardSize);
-
-                var maxNumberOfPlayers = CheckMaxNumberOfPlayerAgainstABoardSize(boardSize);
-
-                var numberOfPlayers = RequestNumberOfPlayers(maxNumberOfPlayers, Console.WriteLine, Console.ReadLine);
-
-                var playerList = PlayersChooseToken(numberOfPlayers, Console.WriteLine, Console.ReadLine);
-
-                var newGame = new TicTacToe(board, playerList, Console.Write, Console.ReadLine);
-                
-                newGame.RunGame();
-            } 
-            else
-            {
-                var threeDBoard = new ThreeDBoard();
-                var playerList = new string[]
-                {
-                    "X",
-                    "O"
-                };
-
-                var newGame = new TicTacToe(threeDBoard, playerList, Console.Write, Console.ReadLine);
-                newGame.RunGame();
-
+               var board = new Board(boardSize);
+               return board;
             }
+            else{
+               var board = new ThreeDBoard(boardSize);
+               return board;
+            }
+
         }
-        
-        public static int RequestBoardTypeOption(Action<string> write, Func<string> read)
+
+        public static string GetPlayerDecisionOnNextRound(Action<string> write)
+        {
+            write(GameInstructions.PlayAgainQuestion());
+            return Console.ReadLine().ToUpper();
+        }
+
+        public static string GetPlayerDecisionOnSettings(Action<string> write)
+        {
+            write(GameInstructions.ChangeSettingsQuestion());
+            return Console.ReadLine().ToUpper();
+        }
+
+        public static void PrintGoodbyeMessage(Action<string> write)
+        {
+            write(GameInstructions.GoodbyeMessage());
+        }
+
+        public static int GetBoardTypeOption(Action<string> write, Func<string> read)
         {
             var boardTypeInput ="";
             while(true)
@@ -63,12 +114,12 @@ namespace TicTacToe_App
             return int.Parse(boardTypeInput);
         }
 
-        public static int RequestBoardSizeOption(Action<string> write, Func<string> read)
+        public static int GetBoardSizeOption(int boardTypeOption, Action<string> write, Func<string> read)
         {
             var boardSizeInput = "";
             while (true)
             {
-                write(GameInstructions.BoardSizeOption());
+                write(GameInstructions.BoardSizeOption(boardTypeOption));
 
                 boardSizeInput = read();
 
@@ -97,12 +148,12 @@ namespace TicTacToe_App
             };
         }
         
-        public static int RequestNumberOfPlayers(int maxNumberOfPlayers, Action<string> write, Func<string> read)
+        public static int GetNumberOfPlayers(int boardTypeOption, int maxNumberOfPlayers, Action<string> write, Func<string> read)
         {
             var numberOfPlayersInput = "";
             while (true)
             {
-                write(GameInstructions.NumberOfPlayers());
+                write(GameInstructions.NumberOfPlayers(boardTypeOption));
 
                 numberOfPlayersInput = read();
 
@@ -120,7 +171,7 @@ namespace TicTacToe_App
             return int.Parse(numberOfPlayersInput);
         }
         
-        public static string[] PlayersChooseToken(int numberOfPlayers, Action<string> write, Func<string> read)
+        public static string[] GetPlayerList(int numberOfPlayers, Action<string> write, Func<string> read)
         {
             string[] playerList = new string[numberOfPlayers];
             for (int index = 0; index < numberOfPlayers; index++)
@@ -131,7 +182,7 @@ namespace TicTacToe_App
             return playerList;
         }
 
-        private static int CheckMaxNumberOfPlayerAgainstABoardSize(int boardSize)
+        private static int GetMaxNumberOfPlayerForABoard(int boardSize)
         {
            return boardSize == 3 ? 2 : 4;
         }

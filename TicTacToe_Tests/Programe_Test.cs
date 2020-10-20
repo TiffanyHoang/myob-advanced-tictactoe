@@ -12,7 +12,7 @@ namespace TicTacToe_Tests
         {
             var testRead = new TestRead();
             var testWrite = new TestWrite();
-
+            var boardTypeOption = 1;
             var invalidBoardSizeOptionInput = "0";
             var validBoardSizeOptionInput = "2";
 
@@ -20,7 +20,7 @@ namespace TicTacToe_Tests
             testRead.SetToBeRead(validBoardSizeOptionInput);
 
 
-            var boardSizeOption = Program.RequestBoardSizeOption(testWrite.Write, testRead.Read);
+            var boardSizeOption = Program.GetBoardSizeOption(boardTypeOption,testWrite.Write, testRead.Read);
             var actual = Program.SetBoardSize(boardSizeOption);
 
             Assert.True(testWrite.HasText(GameInstructions.InvalidInputMessage()));
@@ -32,6 +32,7 @@ namespace TicTacToe_Tests
         {
             var testRead = new TestRead();
             var testWrite = new TestWrite();
+            var boardTypeOption = 1;
 
             var invalidNumberOfPlayersInput = "3";
             var validNumberOfPlayersInput = "2";
@@ -41,7 +42,7 @@ namespace TicTacToe_Tests
 
             var maxNumberOfPlayers = 2;
             
-            Program.RequestNumberOfPlayers(maxNumberOfPlayers, testWrite.Write, testRead.Read);
+            Program.GetNumberOfPlayers(boardTypeOption, maxNumberOfPlayers, testWrite.Write, testRead.Read);
 
             Assert.True(testWrite.HasText(GameInstructions.InvalidInputMessage()));
         }
@@ -51,6 +52,7 @@ namespace TicTacToe_Tests
         {
             var testRead = new TestRead();
             var testWrite = new TestWrite();
+            var boardTypeOption = 1;
 
             var validNumberOfPlayersInput = "2";
 
@@ -58,7 +60,7 @@ namespace TicTacToe_Tests
 
             var maxNumberOfPlayers = 2;
             
-            var numberOfPlayers = Program.RequestNumberOfPlayers(maxNumberOfPlayers, testWrite.Write, testRead.Read);
+            var numberOfPlayers = Program.GetNumberOfPlayers(boardTypeOption, maxNumberOfPlayers, testWrite.Write, testRead.Read);
             
             var expected = int.Parse(validNumberOfPlayersInput);
             Assert.Equal(expected, numberOfPlayers);;
@@ -75,7 +77,7 @@ namespace TicTacToe_Tests
             testRead.SetToBeRead("x");
             testRead.SetToBeRead("y");
           
-            Program.PlayersChooseToken(numberOfPlayers, testWrite.Write, testRead.Read);
+            Program.GetPlayerList(numberOfPlayers, testWrite.Write, testRead.Read);
 
             Assert.True(testWrite.HasText("token is already taken"));
         }
@@ -110,9 +112,20 @@ namespace TicTacToe_Tests
             testRead.SetToBeRead(invalidBoardTypeOptionInput);
             testRead.SetToBeRead(validBoardTypeOptionInput);
 
-            var boardTypeOption = Program.RequestBoardTypeOption(testWrite.Write, testRead.Read);
+            var boardTypeOption = Program.GetBoardTypeOption(testWrite.Write, testRead.Read);
             
             Assert.True(testWrite.HasText(GameInstructions.InvalidInputMessage()));
         }
+
+        // [Fact]
+        // public void PlayerWantToChangeTheSetting_ReturnTheSettings()
+        // {
+        //     var testRead = new TestRead();
+        //     var testWrite = new TestWrite();
+        //     var playerChangeSettings = "y";
+            
+        //     testRead.SetToBeRead(playerChangeSettings);
+
+        // }
     }
 }
