@@ -1,4 +1,4 @@
-﻿#Tic Tac Toe Console Game
+# Tic Tac Toe Console Game
  
 **Part 1: Basic 2D Tic Tac Toe**
 - User can play on 3x3 Board with 2 token X & Y.
