@@ -4,51 +4,37 @@ namespace TicTacToe_App
 {
     public class Program
     {
+        private static int _boardTypeOption = 1;
+        private static int _boardSizeOption = 1;
+        private static string[] _playerList = new string[]{"X", "O"};
         static void Main(string[] args)
         {
-            var boardTypeOption = GetBoardTypeOption(Console.WriteLine, Console.ReadLine);
+            Start(Console.WriteLine, Console.ReadLine);
+        }
 
-            var boardSizeOption = GetBoardSizeOption(boardTypeOption, Console.WriteLine, Console.ReadLine);
+        public static void Start( Action<string> write, Func<string> read){
+            var game = NewTicTacToeGame(SettingType.New, write, read);
+            var gameResult = game.RunGame();
+            PlayRound(gameResult, write, read);
+        }
 
-            var boardSize = SetBoardSize(boardSizeOption);
-
-            var board = SetBoard(boardTypeOption, boardSize);
-
-            var maxNumberOfPlayers = GetMaxNumberOfPlayerForABoard(boardSize);
-            var numberOfPlayers = GetNumberOfPlayers(boardTypeOption, maxNumberOfPlayers, Console.WriteLine, Console.ReadLine);
-            var playerList = GetPlayerList(numberOfPlayers, Console.WriteLine, Console.ReadLine);
-
-            var newGame = new TicTacToe(board, playerList, Console.Write, Console.ReadLine);
-            var gameResult = newGame.RunGame();
-
+        public static void PlayRound(GameStatus gameResult, Action<string> write, Func<string> read)
+        {
             while (gameResult == GameStatus.Draw || gameResult == GameStatus.Win)
             {
-                var playerDecisionOnNextRound = GetPlayerDecisionOnNextRound(Console.WriteLine);
+                var playerDecisionOnNextRound = GetPlayerDecisionOnNextRound(write, read);
                 if (playerDecisionOnNextRound == "Y")
                 {
-                    var playerDecisionOnSettings = GetPlayerDecisionOnSettings(Console.WriteLine);
+                    var playerDecisionOnSettings = GetPlayerDecisionOnSettings(write, read);
                     if (playerDecisionOnSettings == "Y")
                     {
-                        boardTypeOption = GetBoardTypeOption(Console.WriteLine, Console.ReadLine);
-
-                        boardSizeOption = GetBoardSizeOption(boardTypeOption, Console.WriteLine, Console.ReadLine);
-
-                        boardSize = SetBoardSize(boardSizeOption);
-
-                        board = SetBoard(boardTypeOption, boardSize);
-
-                        maxNumberOfPlayers = GetMaxNumberOfPlayerForABoard(boardSize);
-                        numberOfPlayers = GetNumberOfPlayers(boardTypeOption, maxNumberOfPlayers, Console.WriteLine, Console.ReadLine);
-                        playerList = GetPlayerList(numberOfPlayers, Console.WriteLine, Console.ReadLine);
-
-                        newGame = new TicTacToe(board, playerList, Console.Write, Console.ReadLine);
-                        gameResult = newGame.RunGame();
+                        var game =  NewTicTacToeGame(SettingType.New, write, read);
+                        gameResult = game.RunGame();
                     }
                     else 
                     {
-                        board = SetBoard(boardTypeOption, boardSize);
-                        newGame = new TicTacToe(board, playerList, Console.Write, Console.ReadLine);
-                        gameResult = newGame.RunGame();
+                        var game = NewTicTacToeGame(SettingType.Current, write, read);
+                        gameResult = game.RunGame();
                     }
                 } 
                 else {
@@ -56,7 +42,36 @@ namespace TicTacToe_App
                     break;
                 }
             }
-            
+        }
+
+        public static TicTacToe NewTicTacToeGame(SettingType settings, Action<string> write, Func<string> read)
+        {
+            if (settings == SettingType.New)
+            {
+                _boardTypeOption = GetBoardTypeOption(write, read);
+
+                _boardSizeOption = GetBoardSizeOption(_boardTypeOption, write, read);
+
+                var boardSize = SetBoardSize(_boardSizeOption);
+
+                var board = SetBoard(_boardTypeOption, boardSize);
+
+                var maxNumberOfPlayers = GetMaxNumberOfPlayerForABoard(boardSize);
+
+                var numberOfPlayers = GetNumberOfPlayers(_boardTypeOption, maxNumberOfPlayers, write, read);
+
+                _playerList = GetPlayerList(numberOfPlayers, write, read);
+
+                return new TicTacToe(board,_playerList, write, read);
+            }
+            else
+            {
+                var boardSize = SetBoardSize(_boardSizeOption);
+
+                var board = SetBoard(_boardTypeOption, boardSize);
+                
+                return new TicTacToe(board, _playerList, write, read);
+            }
         }
 
         public static IBoard SetBoard (int boardTypeOption, int boardSize)
@@ -70,19 +85,18 @@ namespace TicTacToe_App
                var board = new ThreeDBoard(boardSize);
                return board;
             }
-
         }
 
-        public static string GetPlayerDecisionOnNextRound(Action<string> write)
+        public static string GetPlayerDecisionOnNextRound(Action<string> write, Func<string> read)
         {
             write(GameInstructions.PlayAgainQuestion());
-            return Console.ReadLine().ToUpper();
+            return read().ToUpper();
         }
 
-        public static string GetPlayerDecisionOnSettings(Action<string> write)
+        public static string GetPlayerDecisionOnSettings(Action<string> write, Func<string> read)
         {
             write(GameInstructions.ChangeSettingsQuestion());
-            return Console.ReadLine().ToUpper();
+            return read().ToUpper();
         }
 
         public static void PrintGoodbyeMessage(Action<string> write)

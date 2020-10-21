@@ -27,4 +27,10 @@ namespace TicTacToe_App
         TwoD,
         ThreeD,
     }
+
+    public enum SettingType
+    {
+        Current,
+        New
+    }
 }

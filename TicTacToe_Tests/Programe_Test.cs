@@ -8,7 +8,7 @@ namespace TicTacToe_Tests
     public class Program_Test
     {
         [Fact]
-        public void GivenBoardSizeOptionInput_ReturnABoardSizeMatchWithTheGivenSizeOption()
+        public void GivenInvalidBoardSizeOptionInput_ReturnInvalidInputMessage()
         {
             var testRead = new TestRead();
             var testWrite = new TestWrite();
@@ -19,11 +19,20 @@ namespace TicTacToe_Tests
             testRead.SetToBeRead(invalidBoardSizeOptionInput);
             testRead.SetToBeRead(validBoardSizeOptionInput);
 
-
             var boardSizeOption = Program.GetBoardSizeOption(boardTypeOption,testWrite.Write, testRead.Read);
-            var actual = Program.SetBoardSize(boardSizeOption);
 
             Assert.True(testWrite.HasText(GameInstructions.InvalidInputMessage()));
+        }
+
+        [Fact]
+        public void GivenBoardSizeOptionInput_ReturnABoardSizeMatchWithTheGivenSizeOption()
+        {
+            var testRead = new TestRead();
+            var testWrite = new TestWrite();
+            var boardSizeOption = 2;
+
+            var actual = Program.SetBoardSize(boardSizeOption);
+
             Assert.Equal(4, actual);
         }
         
@@ -63,6 +72,7 @@ namespace TicTacToe_Tests
             var numberOfPlayers = Program.GetNumberOfPlayers(boardTypeOption, maxNumberOfPlayers, testWrite.Write, testRead.Read);
             
             var expected = int.Parse(validNumberOfPlayersInput);
+
             Assert.Equal(expected, numberOfPlayers);;
         }
 
@@ -79,7 +89,7 @@ namespace TicTacToe_Tests
           
             Program.GetPlayerList(numberOfPlayers, testWrite.Write, testRead.Read);
 
-            Assert.True(testWrite.HasText("token is already taken"));
+            Assert.True(testWrite.HasText(GameInstructions.TakenTokenMessage()));
         }
 
         [Fact]
@@ -117,15 +127,70 @@ namespace TicTacToe_Tests
             Assert.True(testWrite.HasText(GameInstructions.InvalidInputMessage()));
         }
 
-        // [Fact]
-        // public void PlayerWantToChangeTheSetting_ReturnTheSettings()
-        // {
-        //     var testRead = new TestRead();
-        //     var testWrite = new TestWrite();
-        //     var playerChangeSettings = "y";
-            
-        //     testRead.SetToBeRead(playerChangeSettings);
+        [Theory]
+        [InlineData(1, 3, BoardType.TwoD)]
+        [InlineData(2, 3, BoardType.ThreeD)]
+        public void GivenABoardTypeOption_ReturnCorrectBoard(int boardTypeOption, int boardSize, BoardType expectedBoardType)
+        {
+            var testRead = new TestRead();
+            var testWrite = new TestWrite();
 
-        // }
+            var actualBoardType = Program.SetBoard(boardTypeOption,boardSize).Type;
+
+            Assert.Equal(expectedBoardType, actualBoardType);
+        }
+
+        [Fact]
+        public void Foo()
+        {
+            var testRead = new TestRead();
+            var testWrite = new TestWrite();
+        
+            var gameResult = GameStatus.Win;
+            
+            var playerDecisionOnNextRound = "Y";
+            var playerDecisionOnSettings = "Y";
+            var boardTypeOption = "1";
+            var boardSizeOption = "1";
+            var numberOfPlayer = "2";
+            var player1Token = "X";
+            var player2Token = "O";
+
+            testRead.SetToBeRead(playerDecisionOnNextRound);
+            testRead.SetToBeRead(playerDecisionOnSettings);
+            testRead.SetToBeRead(boardTypeOption);
+            testRead.SetToBeRead(boardSizeOption);
+            testRead.SetToBeRead(numberOfPlayer);
+            testRead.SetToBeRead(player1Token);
+            testRead.SetToBeRead(player2Token);
+            testRead.SetToBeRead("q");
+
+            Program.PlayRound(gameResult, testWrite.Write, testRead.Read);
+            
+            Assert.True(testWrite.HasText(GameInstructions.BoardTypeOption()));
+        }
+
+         [Fact]
+        public void Foo2()
+        {
+            var testRead = new TestRead();
+            var testWrite = new TestWrite();
+        
+            var gameResult = GameStatus.Win;
+            var boardType = BoardType.TwoD;
+
+            var playerDecisionOnNextRound = "Y";
+            var playerDecisionOnSettings = "N";
+
+            testRead.SetToBeRead(playerDecisionOnNextRound);
+            testRead.SetToBeRead(playerDecisionOnSettings);
+         
+            testRead.SetToBeRead("q");
+
+            Program.PlayRound(gameResult, testWrite.Write, testRead.Read);
+            
+            Assert.True(testWrite.HasText(GameInstructions.WelcomeMessage(boardType)));
+        }
+        
     }
 }
