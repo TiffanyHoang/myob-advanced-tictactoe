@@ -42,6 +42,7 @@ namespace TicTacToe_Tests
             var testRead = new TestRead();
             var testWrite = new TestWrite();
             var boardTypeOption = 1;
+            var maxNumberOfPlayers = 2;
 
             var invalidNumberOfPlayersInput = "3";
             var validNumberOfPlayersInput = "2";
@@ -49,8 +50,6 @@ namespace TicTacToe_Tests
             testRead.SetToBeRead(invalidNumberOfPlayersInput);
             testRead.SetToBeRead(validNumberOfPlayersInput);
 
-            var maxNumberOfPlayers = 2;
-            
             Program.GetNumberOfPlayers(boardTypeOption, maxNumberOfPlayers, testWrite.Write, testRead.Read);
 
             Assert.True(testWrite.HasText(GameInstructions.InvalidInputMessage()));
@@ -62,13 +61,12 @@ namespace TicTacToe_Tests
             var testRead = new TestRead();
             var testWrite = new TestWrite();
             var boardTypeOption = 1;
+            var maxNumberOfPlayers = 2;
 
             var validNumberOfPlayersInput = "2";
 
             testRead.SetToBeRead(validNumberOfPlayersInput);
 
-            var maxNumberOfPlayers = 2;
-            
             var numberOfPlayers = Program.GetNumberOfPlayers(boardTypeOption, maxNumberOfPlayers, testWrite.Write, testRead.Read);
             
             var expected = int.Parse(validNumberOfPlayersInput);
